@@ -3,4 +3,12 @@ module.exports = {
 	outputDir: 'dist',
 	productionSourceMap: false,
 	runtimeCompiler: true,
+	devServer: {
+		proxy: {
+			'/api': {
+				target: '',
+				changeOrigin: true
+			}
+		}
+	}
 }
