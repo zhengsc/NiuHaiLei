@@ -18,6 +18,7 @@ import {
   Loading,
   Tag,
   Message,
+  Pagination
 } from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/element-ui.scss'
@@ -35,6 +36,7 @@ Vue.use(TimePicker)
 Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Tag)
+Vue.use(Pagination)
 
 Vue.use(axios, {
   baseURL: process.env.NODE_ENV === 'development' ? '/' : 'http://www.test/com'

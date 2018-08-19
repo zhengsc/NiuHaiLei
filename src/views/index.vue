@@ -93,40 +93,15 @@
 			<div class="master-list-title">
 				<h3>咨询大师</h3>
 			</div>
-			<div class="master-list-content">
-				<div
-					v-for="master in masterList"
-					:key="master.id"
-					class="master-list-item"
-				>
-					<div class="master-detail-img">
-						<img :src="master.picture" alt="">
-					</div>
-					<div class="master-detail-text-wrap">
-						<div class="master-detail-name">
-							<span>{{master.name}}</span>
-							<span :class="['master-status', master.status === 1 ? 'online' : 'offline']">{{master.status === 1 ? '在线' : '离线'}}</span>
-						</div>
-						<div class="master-detail-tag">
-							<el-tag 
-								v-for="(tag, index) in master.tags"
-								:key="index"
-								size="mini"
-								class="tag-item"
-							>{{tag}}</el-tag>
-						</div>
-						<div class="master-detail-desc">
-							<p>{{master.desc}}</p>
-						</div>
-					</div>
-				</div>
-			</div>
+			<Master :masterList="masterList" />
 		</div>
 	</div>
 </template>
 
 <script>
+	import mockData from '../assets/js/mock'
 	import Util from '../assets/js/util'
+	import Master from '../components/master.vue'
 
 	export default {
 		data() {
@@ -165,57 +140,11 @@
 					{ id: 12, text: '十二月' },
 				],
 				dates: [],
-				masterList: [
-					{
-						id: 1,
-						name: 'NiuHaiLei',
-						picture: require('../assets/images/index-master-picture.jpg'),
-						status: 1, // 在线
-						tags: [ '推算', '风水', '事业运势' ],
-						desc: '江湖高手，算命准确率极高，多年网络实战经验，实话实说不留情面',
-					}, 
-					{
-						id: 2,
-						name: 'NiuHaiLei',
-						picture: require('../assets/images/index-master-picture.jpg'),
-						status: 2, // 离线
-						tags: [ '推算', '风水', '事业运势' ],
-						desc: '江湖高手，算命准确率极高，多年网络实战经验，实话实说不留情面',
-					},
-					{
-						id: 3,
-						name: 'NiuHaiLei',
-						picture: require('../assets/images/index-master-picture.jpg'),
-						status: 1, // 在线
-						tags: [ '推算', '风水', '事业运势' ],
-						desc: '江湖高手，算命准确率极高，多年网络实战经验，实话实说不留情面',
-					}, 
-					{
-						id: 4,
-						name: 'NiuHaiLei',
-						picture: require('../assets/images/index-master-picture.jpg'),
-						status: 2, // 离线
-						tags: [ '推算', '风水', '事业运势' ],
-						desc: '江湖高手，算命准确率极高，多年网络实战经验，实话实说不留情面',
-					},
-					{
-						id: 5,
-						name: 'NiuHaiLei',
-						picture: require('../assets/images/index-master-picture.jpg'),
-						status: 1, // 在线
-						tags: [ '推算', '风水', '事业运势' ],
-						desc: '江湖高手，算命准确率极高，多年网络实战经验，实话实说不留情面',
-					}, 
-					{
-						id: 6,
-						name: 'NiuHaiLei',
-						picture: require('../assets/images/index-master-picture.jpg'),
-						status: 2, // 离线
-						tags: [ '推算', '风水', '事业运势' ],
-						desc: '江湖高手，算命准确率极高，多年网络实战经验，实话实说不留情面',
-					},
-				]
+				masterList: mockData.masterList
 			}
+		},
+		components: {
+			Master
 		},
 		watch: {
 			'userInputData.year'() {
@@ -308,68 +237,5 @@
 					background url('../assets/images/index-master-list-title.png') no-repeat center bottom 
 					background-size 485px 12px
 			
-			.master-list-content
-				display flex
-				justify-content flex-start
-				align-items center
-				flex-wrap wrap
-				padding-top 10px
-
-				.master-list-item
-					width 267px
-					height auto
-					flex-shrink 1
-					flex-grow 0
-					margin-right 10px
-					margin-top 10px
-					cursor pointer
-
-					&:nth-child(4n)
-						margin-right 0
-
-					.master-detail-img
-						width 100%
-						height 170px
-						overflow hidden
-
-						img
-							transition .5s ease transform
-							&:hover
-								transform scale(1.1)
-						
-
-					.master-detail-text-wrap
-						padding 10px 5px
-
-						.master-detail-name 
-							display flex
-							justify-content space-between
-							align-items center
-							font-size 18px
-
-							.master-status
-								font-size 12px
-								padding 2px 10px
-								color #ffffff
-								background-color #5f3736
-								border-radius 4px
-
-								&.offline
-									background-color #cccccc
-
-						.master-detail-tag
-							text-align left 
-							margin-top 10px
-
-							.tag-item
-								margin-right 10px
-
-						.master-detail-desc
-							margin-top 10px
-							color #5f5f5f
-							font-size 12px
-							text-align left
-
-	
 </style>
 
