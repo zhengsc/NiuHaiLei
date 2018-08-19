@@ -15,8 +15,6 @@ Menu.forEach(item => {
   })
 })
 
-console.log(routes)
-
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
