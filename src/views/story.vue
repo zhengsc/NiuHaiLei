@@ -1,6 +1,6 @@
 <template>
 	<div class="index-wrap">
-		about
+		story
 	</div>
 </template>
 

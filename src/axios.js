@@ -81,6 +81,7 @@ axios.post = function(url, data, config) {
 
 axios.install = (Vue, opt) => {
 	axios.defaults.baseURL = opt.baseUrl
+	axios.defaults.timeout = 10000
 	
 	Vue.prototype.$http = axios
 }

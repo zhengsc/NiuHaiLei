@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import Qs from 'qs'
 import axios from './axios'
-import './plugins/element.js'
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.prototype.$qs = Qs
 
@@ -21,3 +21,4 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+

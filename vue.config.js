@@ -4,11 +4,11 @@ module.exports = {
 	productionSourceMap: false,
 	runtimeCompiler: true,
 	devServer: {
-		proxy: {
-			'/api': {
-				target: '',
-				changeOrigin: true
-			}
-		}
+		// proxy: {
+		// 	'/api': {
+		// 		target: '',
+		// 		changeOrigin: true
+		// 	}
+		// }
 	}
 }
