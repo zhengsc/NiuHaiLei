@@ -19,5 +19,6 @@
 <style lang="stylus" scoped>
 	.body-wrap
 		min-height 300px
+		overflow hidden
 </style>
 
