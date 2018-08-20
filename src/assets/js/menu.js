@@ -5,8 +5,8 @@ const MENU = [
 		text: '首页',
 	},
 	{
-		path: '/suanming',
-		name: 'suanming',
+		path: '/divination',
+		name: 'divination',
 		text: '免费算命大全',
 	},
 	{
