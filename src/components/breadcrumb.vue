@@ -6,7 +6,7 @@
 		</div>
 		<div class="breadcrumb-address">
 			<span>
-				<img src="../assets/images/breadcrumb-address-icon.jpg" alt="">
+				<img src="../assets/images/breadcrumb-address-icon.png" alt="">
 				您现在的位置：
 			</span>
 			<span 
@@ -71,7 +71,7 @@
 					margin-right 5px
 
 			img
-				width 15px
+				width 20px
 				height 20px
 				margin-right 6px
 </style>
