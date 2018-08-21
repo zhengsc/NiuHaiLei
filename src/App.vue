@@ -3,6 +3,7 @@
 		<Header />
 		<vBody />
 		<Footer />
+		<Login v-show="showLoginWrap" />
 	</div>
 </template>
 
@@ -12,6 +13,7 @@
 	import Header from './components/header.vue'
 	import vBody from './components/body.vue'
 	import Footer from './components/footer.vue'
+	import Login from './components/login.vue'
 
 	export default {
 		name: 'app',
@@ -19,7 +21,13 @@
 			Header,
 			vBody,
 			Footer,
+			Login,
 		},
+		computed: {
+			showLoginWrap() {
+				return this.$store.state.loginWrap
+			}
+		}
 	}
 </script>
 

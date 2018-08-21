@@ -14,7 +14,7 @@
 							<span>TEL: 400-6588-128</span>
 						</div>
 						<div class="header-tool-user">
-							<a href="">登录</a>
+							<a href="javascript:;" @click="openLoginWrapHandler">登录</a>
 							<span>|</span>
 							<a href="">注册</a>
 						</div>
@@ -46,6 +46,11 @@
 		data() {
 			return {
 				menuList: Menu
+			}
+		},
+		methods: {
+			openLoginWrapHandler() {
+				this.$store.commit('setLoginWrapState', true)
 			}
 		}
 	}

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "easemob-websdk": "^1.8.0",
     "element-ui": "^2.4.5",
     "pingpp-js": "^2.2.6",
     "vue": "^2.5.17",
