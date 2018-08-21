@@ -13,6 +13,13 @@ const MENU = [
 		path: '/master',
 		name: 'Master',
 		text: '大师列表',
+		children: [
+			{
+				path: '/master/detail/:id',
+				name: 'MasterDetail',
+				text: '大师详情'
+			}
+		]
 	},
 	{
 		path: '/about',

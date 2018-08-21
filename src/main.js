@@ -18,7 +18,9 @@ import {
   Loading,
   Tag,
   Message,
-  Pagination
+  Pagination,
+  Row,
+  Col,
 } from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/element-ui.scss'
@@ -37,6 +39,8 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Tag)
 Vue.use(Pagination)
+Vue.use(Row)
+Vue.use(Col)
 
 Vue.use(axios, {
   baseURL: process.env.NODE_ENV === 'development' ? '/' : 'http://www.test/com'
@@ -55,3 +59,8 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+/* 
+ * 环信
+ * 18833886059@163.com
+ * nhl10571x
+ */

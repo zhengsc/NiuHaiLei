@@ -130,8 +130,9 @@
 		display flex
 		justify-content space-around
 		align-items center
+		width 1100px
 		height 320px
-		margin 40px 0
+		margin 40px auto
 
 		> div 
 			display: flex
