@@ -3,7 +3,7 @@
 		<Header />
 		<vBody />
 		<Footer />
-		<Login v-show="showLoginWrap" />
+		<Login v-if="showLoginWrap" />
 	</div>
 </template>
 

@@ -13,13 +13,6 @@ const MENU = [
 		path: '/master',
 		name: 'Master',
 		text: '大师列表',
-		children: [
-			{
-				path: '/master/detail/:id',
-				name: 'MasterDetail',
-				text: '大师详情'
-			}
-		]
 	},
 	{
 		path: '/about',
@@ -39,8 +32,31 @@ const MENU = [
 	{
 		path: '/story',
 		name: 'Story',
-		text: '命理故事'
+		text: '命理故事',
 	},
+	// },
+	// {
+	// 	path: ''
+	// }
+	// 	children: [
+	// 		{
+	// 			path: '/story/',
+	// 			name: 'storyIndex',
+	// 			text: '故事详情',
+	// 			meta: {
+	// 				path: 'story/index'
+	// 			}
+	// 		},
+	// 		{
+	// 			path: '/story/:id',
+	// 			name: 'storyDetail',
+	// 			text: '故事详情',
+	// 			meta: {
+	// 				path: 'story/detail'
+	// 			}
+	// 		}
+	// 	],
+	// },
 ]
 
 export default MENU

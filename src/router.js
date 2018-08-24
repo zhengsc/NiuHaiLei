@@ -8,15 +8,37 @@ let routes = []
 
 Menu.forEach(item => {
   let fileUrl = item.path === '/' ? 'index' : item.path.slice(1)
-  routes.push({
+  let children = []
+
+  let route = {
     path: item.path,
     name: item.name,
-    component: () => import(`./views/${fileUrl}.vue`)
-  })
+    component: () => import(`./views/${fileUrl}.vue`),
+  }
+
+  // if(item.children instanceof Array && item.children.length > 0) {
+  //   item.children.forEach(child => {
+  //     children.push({
+  //       path: child.path,
+  //       name: child.name,
+  //       component: () => import(`./views/${child.meta.path}.vue`)
+  //     })
+  //   })
+
+  //   route.children = children
+  // }
+
+  routes.push(route)
 })
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: [
+    ...routes,
+    {
+      path: '*',
+      redirect: '/'
+    }
+  ]
 })

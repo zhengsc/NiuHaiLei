@@ -48,6 +48,38 @@ const mockData = {
 			tags: [ '推算', '风水', '事业运势' ],
 			desc: '江湖高手，算命准确率极高，多年网络实战经验，实话实说不留情面',
 		},
+	],
+	storyList: [
+		{
+			picture: require('../images/story-item.jpg'),
+			desc: '命理故事',
+			id: 1,
+		},
+		{
+			picture: require('../images/story-item.jpg'),
+			desc: '命理故事',
+			id: 2,
+		},
+		{
+			picture: require('../images/story-item.jpg'),
+			desc: '命理故事',
+			id: 3,
+		},
+		{
+			picture: require('../images/story-item.jpg'),
+			desc: '命理故事',
+			id: 4,
+		},
+		{
+			picture: require('../images/story-item.jpg'),
+			desc: '命理故事',
+			id: 5,
+		},
+		{
+			picture: require('../images/story-item.jpg'),
+			desc: '命理故事',
+			id: 6,
+		}
 	]
 }
 

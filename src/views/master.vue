@@ -1,72 +1,42 @@
 <template>
-	<div class="master-list-wrap">
-		<Breadcrumb :breadcrumb="breadcrumb" />
-		<div class="master-list-container">
-			<Master :masterList="masterList" />
-		</div>
-		<div class="master-list-pagination">
-			<el-pagination
-				:page-size="pagination.pageSize"
-				:total="pagination.total"
-				:current-page="pagination.page"
-				:layout="pagination.layout"
-				:prev-text="pagination.prevText"
-				:next-text="pagination.nextText"
-				:current-change="changeCurrentPageHandler"
-				background
-			></el-pagination>
-		</div>
-	</div>
+	<transition name="slide-fade" mode="out-in" appear>
+		<!-- <router-view></router-view> -->
+		<component :is="compId"></component>
+	</transition>
 </template>
 
 <script>
-	import Breadcrumb from '../components/breadcrumb'
-	import Master from '../components/master'
-
-	import mockData from '../assets/js/mock'
+	import MasterDetail from './master/detail'
+	import MasterList from './master/list'
 
 	export default {
 		data() {
 			return {
-				breadcrumb: {
-					title: {
-						zh: '大师列表',
-						en: 'MASTER LIST'
-					},
-					address: ['大师列表']
-				},
-				masterList: mockData.masterList,
-				pagination: {
-					pageSize: 8,
-					total: 80,
-					page: 1,
-					layout: 'prev, pager, next',
-					prevText: '上一页',
-					nextText: '下一页'
+				compId: null,
+			}
+		},
+		watch: {
+			'$route': function() {
+				this.setComp()
+			}
+		},
+		created() {
+			this.setComp()
+		},
+		methods: {
+			setComp() {
+				let query = this.$route.query
+
+				if(query.id) {
+					this.compId = MasterDetail
+				} else {
+					this.compId = MasterList
 				}
 			}
 		},
 		components: {
-			Breadcrumb,
-			Master,
-		},
-		methods: {
-			changeCurrentPageHandler(page) {
-				this.pagination.page = page
-				// TODO GET DATA
-			}
+			MasterList,
+			MasterDetail,
 		}
 	}
 </script>
-
-<style lang="stylus" scoped>
-	.master-list-wrap
-		.master-list-container
-			width 1100px
-			height auto 
-			margin auto
-
-		.master-list-pagination
-			padding 20px 0 30px 0
-</style>
-

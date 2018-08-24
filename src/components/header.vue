@@ -16,7 +16,7 @@
 						<div class="header-tool-user">
 							<a href="javascript:;" @click="openLoginWrapHandler">登录</a>
 							<span>|</span>
-							<a href="">注册</a>
+							<a href="javascript:;">注册</a>
 						</div>
 					</div>
 				</div>
@@ -27,8 +27,7 @@
 						v-for="(menu, index) in menuList"
 						:key="index"
 						:to="menu.path"
-						exact-active-class="active"
-						exact
+						active-class="active"
 					>{{menu.text}}</router-link>
 				</div>
 			</div>
@@ -114,7 +113,8 @@
 						flex 1
 						color #fff
 						cursor pointer
-						color 16px
+						font-size 16px
+						transition all .3s ease
 
 						&.active,
 						&:hover

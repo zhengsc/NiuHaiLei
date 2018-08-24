@@ -4,6 +4,7 @@
 			class="master-list-item"
 			v-for="(master, index) in masterList"
 			:key="index"
+			@click="go2MasterDetail(master.id)"
 		>
 			<div class="master-detail-img">
 				<img :src="master.picture" alt="">
@@ -40,6 +41,11 @@
 		data() {
 			return {
 				
+			}
+		},
+		methods: {
+			go2MasterDetail(id) {
+				this.$router.push('/master?id=' + id)
 			}
 		}
 	}
