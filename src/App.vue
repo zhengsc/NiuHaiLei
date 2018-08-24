@@ -14,6 +14,7 @@
 	import vBody from './components/body.vue'
 	import Footer from './components/footer.vue'
 	import Login from './components/login.vue'
+	import Register from './components/register.vue'
 
 	export default {
 		name: 'app',
@@ -22,6 +23,7 @@
 			vBody,
 			Footer,
 			Login,
+			Register,
 		},
 		computed: {
 			showLoginWrap() {

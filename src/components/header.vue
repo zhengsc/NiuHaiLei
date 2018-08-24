@@ -28,6 +28,7 @@
 						:key="index"
 						:to="menu.path"
 						active-class="active"
+						:exact="menu.path === '/' ? true : false"
 					>{{menu.text}}</router-link>
 				</div>
 			</div>
