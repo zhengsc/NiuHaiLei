@@ -7,6 +7,7 @@ import axios from './axios'
 import {
   Input,
   Radio,
+  Checkbox,
   Select,
   Option,
   Button,
@@ -29,6 +30,7 @@ Vue.prototype.$qs = Qs
 
 Vue.use(Input)
 Vue.use(Radio)
+Vue.use(Checkbox)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Button)
@@ -43,7 +45,7 @@ Vue.use(Row)
 Vue.use(Col)
 
 Vue.use(axios, {
-  baseURL: process.env.NODE_ENV === 'development' ? '/' : 'http://www.test/com'
+  baseURL: process.env.NODE_ENV === 'development' ? '/' : 'http://www.test.com'
 })
 
 Vue.prototype.$loading = Loading.service

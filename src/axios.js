@@ -1,20 +1,11 @@
-import Vue from 'vue'
 import Axios from 'axios'
 import { Message, Loading } from 'element-ui'
 
 let axios = Axios.create()
 
-let request = {}, loading = null
+let loading = null
 
 axios.interceptors.request.use(function(config) {
-	let { data, method, headers, url } = config
-
-	request = {
-		data,
-		method,
-		headers,
-		url
-	}
 
 	loading = Loading.service({
 		lock: true,
@@ -22,8 +13,6 @@ axios.interceptors.request.use(function(config) {
 		spinner: 'el-icon-loading',
 		background: 'rgba(0, 0, 0, 0.7)',
 	})
-	
-	// config.headers['TOKEN'] = User.getToken()
 	
 	return config
 }, function(err) {
@@ -33,22 +22,6 @@ axios.interceptors.request.use(function(config) {
 axios.interceptors.response.use(function(response) {
 
 	let resp = response.data
-
-	// 未登录
-	// if(res.code === 13 || res.code === 604) {
-	// 	// 线上环境清除token重新登录
-	// 	if(process.env.NODE_ENV === 'production') {
-	// 		User.removeToken()
-	// 		return location.replace('/login?url=' + encodeURIComponent(location.pathname))
-	// 	}
-	// } else if(res.code === 605) {
-	// 	// 原有token失效
-	// 	User.setToken(res.data.token)
-
-	// 	return axios({
-	// 		...request
-	// 	})
-	// }
 
 	loading.close()
 

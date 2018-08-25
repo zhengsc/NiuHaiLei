@@ -1,9 +1,9 @@
 <template>
 	<div class="login-wrap">
 		<transition name="slide-in">
-			<div v-if="loginContainerShow" class="login-container">
-				<div class="login-module">
-					<img class="login-close" @click="closeLoginWrapHandler" src="../assets/images/close-icon.png" alt="">
+			<div v-if="loginContainerShow" :class="['login-container', loginType === 'phone' ? 'phone-login' : '']">
+				<img class="login-close" @click="closeLoginWrapHandler" src="../assets/images/close-icon.png" alt="">
+				<div v-if="loginType === 'phone'" class="phone-login-module">
 					<div class="login-desc-line">
 						<img src="../assets/images/login-head-line-icon.jpg" alt="">
 						<div>
@@ -36,6 +36,11 @@
 									>{{isSendingCode ? countDown + ' S' : '点击发送'}}</el-button>
 								</div>
 							</el-form-item>
+							<el-form-item
+								label="支付码:"
+							>
+								<el-input placeholder="支付码（选题）" v-model="loginObj.payCode"></el-input>
+							</el-form-item>
 							<div class="login-form-tool-wrap">
 								<el-button 
 									class="login-form-submit" 
@@ -45,6 +50,28 @@
 								>提交</el-button>
 							</div>
 						</el-form>
+					</div>
+				</div>
+				<div v-if="loginType === 'thirdPart'" class="third-part-login-container">
+					<h3>登陆</h3>
+					<div class="third-part-list">
+						<div @click="loginThirdPart('QQ')">
+							<img src="../assets/images/qq.png" alt="">
+							<span>QQ登陆</span>
+						</div>
+						<div @click="loginThirdPart('WeChat')">
+							<img src="../assets/images/wechat.png" alt="">
+							<span>微信登陆</span>
+						</div>
+					</div>
+					<div class="go-login-container">
+						<p>
+							<a href="javascript:;" @click="phoneCodeLogin">短信登陆</a>
+						</p>
+						<p>
+							<span>还没账号？</span>
+							<a href="javascript:;" @click="go2Register">去注册</a>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -61,10 +88,12 @@
 				loginObj: {
 					phone: '',
 					code: '',
+					payCode: '',
 				},
 				loginContainerShow: false,
 				countDown: COUNT_DOWN_SECOND,
 				isSendingCode: false,
+				loginType: 'thirdPart'
 			}
 		},
 		computed: {
@@ -110,6 +139,16 @@
 						this.isSendingCode = false
 					}
 				}, 1000)
+			},
+			loginThirdPart() {
+
+			},
+			phoneCodeLogin() {
+				this.loginType = 'phone'
+			},
+			go2Register() {
+				this.$store.commit('setLoginWrapState', false)
+				this.$store.commit('setRegisterWrapState', true)
 			}
 		}
 	}
@@ -153,76 +192,116 @@
 
 		.login-container
 			width 500px
-			height 380px
+			height 320px
 			background-color #ffffff
 			border-radius 8px
 			padding 30px 20px
 			position relative
+			transition all .4s ease
 
-	.login-module
-		width 100%
+			&.phone-login 
+				height 420px
 
-		.login-close
-			width 14px
-			height 14px
-			position absolute 
-			top 30px
-			right 20px
-			cursor pointer
+			.login-close
+				width 14px
+				height 14px
+				position absolute 
+				top 30px
+				right 20px
+				cursor pointer
 
-		.login-desc-line 
-			height 80px
-			display flex
-			justify-content flex-start
-			align-items center
-			border-bottom 1px solid #ccc
-			
-			img 
-				width 24px
-				height auto
-				flex-grow 0
-				margin 0 20px
+		.phone-login-module
+			width 100%
 
-			div 
-				text-align left
+			.login-desc-line 
+				height 80px
+				display flex
+				justify-content flex-start
+				align-items center
+				border-bottom 1px solid #ccc
 				
-				h3 
-					font-size 16px
+				img 
+					width 24px
+					height auto
+					flex-grow 0
+					margin 0 20px
 
-				p 
-					font-size 12px
+				div 
+					text-align left
+					
+					h3 
+						font-size 16px
+
+					p 
+						font-size 12px
+						display flex
+						align-items center
+
+						span 
+							color #ff3a00
+
+						img 
+							width 14px
+							height 14px
+							margin-right 4px
+							margin-left 0
+
+			.login-input-wrap
+				width 340px
+				margin auto
+				margin-top 40px
+
+				.login-form-code-line
 					display flex
+					justify-content center
 					align-items center
 
-					span 
-						color #ff3a00
+					.code-line-button
+						margin-left 10px
+						color #fff
+						background-color #0060cd
 
-					img 
-						width 14px
-						height 14px
-						margin-right 4px
-						margin-left 0
+				.login-form-tool-wrap
+					text-align center
 
-		.login-input-wrap
-			width 340px
-			margin auto
-			margin-top 40px
+					.login-form-submit
+						width 220px
+						margin-top 10px
 
-			.login-form-code-line
+		.third-part-login-container 
+			
+			h3 
+				text-align center
+			
+			.third-part-list
 				display flex
 				justify-content center
 				align-items center
+				margin 40px 0
 
-				.code-line-button
-					margin-left 10px
-					color #fff
-					background-color #0060cd
+				div 
+					display flex
+					justify-content center
+					align-items center
+					flex-direction column
+					width 50%
+					cursor pointer
 
-			.login-form-tool-wrap
-				text-align center
+					img 
+						width 100px
+						height auto
 
-				.login-form-submit
-					width 220px
-					margin-top 10px
+					span 
+						font-size 14px
+						margin-top 10px
+
+			.go-login-container
+				display flex
+				justify-content space-between
+				align-items center
+				margin-top 20px
+
+				a 
+					color: #0000ff
 </style>
 

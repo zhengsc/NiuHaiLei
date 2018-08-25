@@ -4,6 +4,7 @@
 		<vBody />
 		<Footer />
 		<Login v-if="showLoginWrap" />
+		<Register v-if="showRegisterWrap" />
 	</div>
 </template>
 
@@ -28,6 +29,9 @@
 		computed: {
 			showLoginWrap() {
 				return this.$store.state.loginWrap
+			},
+			showRegisterWrap() {
+				return this.$store.state.registerWrap
 			}
 		}
 	}

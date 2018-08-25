@@ -16,7 +16,7 @@
 						<div class="header-tool-user">
 							<a href="javascript:;" @click="openLoginWrapHandler">登录</a>
 							<span>|</span>
-							<a href="javascript:;">注册</a>
+							<a href="javascript:;" @click="openRegisterWrapHandler">注册</a>
 						</div>
 					</div>
 				</div>
@@ -51,6 +51,9 @@
 		methods: {
 			openLoginWrapHandler() {
 				this.$store.commit('setLoginWrapState', true)
+			},
+			openRegisterWrapHandler() {
+				this.$store.commit('setRegisterWrapState', true)
 			}
 		}
 	}
