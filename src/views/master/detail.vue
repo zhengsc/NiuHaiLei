@@ -3,7 +3,7 @@
 		<Breadcrumb :breadcrumb="breadcrumb" />
 		<div class="master-personal-info">
 			<div class="master-personal-img">
-				<el-carousel :interval="3000" arrow="always">
+				<el-carousel :interval="3000" arrow="always" class="maser-personal-carousel-item">
 					<el-carousel-item
 						v-for="(carousel, index) in masterDetail.images"
 						:key="index"
@@ -11,6 +11,7 @@
 						<img :src="carousel" alt="" />
 					</el-carousel-item>
 				</el-carousel>
+
 			</div>
 			<div class="master-personal-text">
 				<div class="master-title">
@@ -80,8 +81,8 @@
 						<div class="comment-user-info">
 							<img :src="comment.userPic" alt="">
 							<div>
-								<p>{{comment.username}}</p>
-								<p>{{comment.date}}</p>
+								<p class="comment-user-line">{{comment.username}}</p>
+								<p class="comment-date-line">{{comment.date}}</p>
 							</div>
 						</div>
 						<div class="comment-context">
@@ -89,9 +90,26 @@
 						</div>
 					</div>
 					<div class="cmment-tool">
-						
+						<el-button type="text">回复</el-button>
 					</div>
 				</div>
+			</div>
+			<div class="master-comment-write">
+				<div class="comment-write-line">
+					<img src="../../assets/images/master-detail-comment-write-user.jpg" alt="">
+					<p>
+						<el-input placeholder="写下你的评论..."></el-input>
+					</p>
+					<el-button type="primary">发送</el-button>
+				</div>
+			</div>
+		</div>
+		<div class="master-other-list">
+			<h3 class="master-plate-title">
+				<span>其他大师</span>
+			</h3>
+			<div class="other-list-container">
+				<Master :masterList="otherMasterList" />
 			</div>
 		</div>
 	</div>
@@ -99,6 +117,9 @@
 
 <script>
 	import Breadcrumb from '../../components/breadcrumb'
+	import Master from '../../components/master'
+
+	import mockData from '../../assets/js/mock'
 
 	export default {
 		data() {
@@ -114,9 +135,9 @@
 					name: '罗永丰',
 					tags: ['风水', '八卦', '周易'],
 					images: [
-						'www.baidu.com',
-						'www.baidu.com',
-						'www.baidu.com',
+						require('../../assets/images/master-detail-images-1.jpg'),
+						require('../../assets/images/master-detail-images-2.jpg'),
+						require('../../assets/images/master-detail-images-1.jpg'),
 					],
 					desc: '大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介',
 					services: [
@@ -150,44 +171,40 @@
 							desc: '算什么都很准',
 							status: 1,
 						},
-						{
-							name: '八卦',
-							price: 12,
-							desc: '算什么都很准',
-							status: 0,
-						}
 					],
 					commentList: [
 						{
-							userPic: 'www.baidu.com',
+							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
 							username: '匿名用户',
-							data: '2018-08-25',
+							date: '2018-08-25',
 							context: '算的很准'
 						},
 						{
-							userPic: 'www.baidu.com',
+							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
 							username: '匿名用户',
-							data: '2018-08-25',
+							date: '2018-08-25',
 							context: '算的很准'
 						},
 						{
-							userPic: 'www.baidu.com',
+							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
 							username: '匿名用户',
-							data: '2018-08-25',
+							date: '2018-08-25',
 							context: '算的很准'
 						},
 						{
-							userPic: 'www.baidu.com',
+							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
 							username: '匿名用户',
-							data: '2018-08-25',
+							date: '2018-08-25',
 							context: '算的很准'
 						}
 					]
-				}
+				},
+				otherMasterList: mockData.masterList
 			}
 		},
 		components: {
 			Breadcrumb,
+			Master,
 		}
 	}
 </script>
@@ -197,6 +214,7 @@
 		width 1100px
 		height auto 
 		margin auto
+		padding-bottom 20px
 
 		.master-personal-info
 			display flex
@@ -206,7 +224,16 @@
 			
 			> div 
 				width 50%
-				height 400px
+				height 300px
+
+			.master-personal-img 
+				.maser-personal-carousel-item
+					width 100%
+					height 100%
+
+					img 
+						width 100%
+						height 100%
 
 			.master-personal-text
 				padding-left 30px
@@ -305,7 +332,64 @@
 
 			.master-comments-list
 				height auto
+				
+				.comment-item
+					height 120px
+					display flex
+					justify-content center
+					align-items center
+					padding 0 20px
+					border-bottom 1px dashed #cccccc						
 
+					.comment-container
+						flex-grow 1
+
+						.comment-user-info 
+							display flex
+							justify-content flex-start
+							align-items center
+
+							img 
+								width 40px
+								height 40px
+								margin-right 8px
+							
+							p 
+								text-align left
+
+								&.comment-user-line 
+									font-size 14px
+								
+								&.comment-date-line 
+									font-size 10px
+									color #ccc
+
+						.comment-context 
+							text-align left
+							margin-top 10px
+
+			.master-comment-write 
+				margin-top 10px
+				padding 15px
+				background #cccccc
+				border-radius 4px
+
+				.comment-write-line
+					display flex
+					justify-content center
+					align-items center
+
+					img 
+						width 40px
+						height 40px
+						margin-right 10px
+
+					p 
+						flex-grow 1
+						margin-right 5px
+
+		.master-other-list
+			margin-top 30px
 
 </style>
 
