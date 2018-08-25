@@ -235,7 +235,7 @@
 					align-items center
 
 					span
-						height 20px
+						height 30px
 						display flex
 						align-items flex-end
 						color #ff0000

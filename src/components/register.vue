@@ -110,7 +110,7 @@
         },
         computed: {
 			submitInfoBtnDisabled() {
-				return !this.isPhone() || !this.Obj.code
+				return !this.isPhone() || !this.registerObj.code
 			}
 		},
 		mounted() {

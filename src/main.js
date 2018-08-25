@@ -22,6 +22,8 @@ import {
   Pagination,
   Row,
   Col,
+  Carousel,
+  CarouselItem,
 } from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/element-ui.scss'
@@ -43,6 +45,8 @@ Vue.use(Tag)
 Vue.use(Pagination)
 Vue.use(Row)
 Vue.use(Col)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
 
 Vue.use(axios, {
   baseURL: process.env.NODE_ENV === 'development' ? '/' : 'http://www.test.com'
