@@ -25,7 +25,7 @@ axios.interceptors.response.use(function(response) {
 
 	let resp = response.data
 
-	if(resp.status !== 200) {
+	if(resp.status !== 200 && resp.status !== 0) {
 		return Promise.reject(response)
 	}
 

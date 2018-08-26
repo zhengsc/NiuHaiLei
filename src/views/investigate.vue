@@ -70,6 +70,16 @@
 		},
 		components: {
 			Breadcrumb,
+		},
+		created() {
+			this.getData()
+		},
+		methods: {
+			getData() {
+				this.$http.post(this.Api.POST_INVESTIGATE_INFO).then(response => {
+					
+				})
+			}
 		}
 	}
 </script>

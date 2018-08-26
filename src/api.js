@@ -1,7 +1,9 @@
 const Api = {
-	POST_MASTER_LIST: '/home/index/users',
-	POST_STORY_LIST: '/home/index/mlgs',
-	POST_STORY_DETAIL: '/home/index/mlgsview',
+	POST_MASTER_LIST: '/home/index/users', // 大师列表
+	POST_STORY_LIST: '/home/index/mlgs', // 故事列表
+	POST_STORY_DETAIL: '/home/index/mlgsview', // 故事详情
+	POST_INVESTIGATE_INFO: '/home/index/kaocha', // 实地考察
+	POST_ABOUT_USE_INFO: '/home/index/about', // 关于我们
 }
 
 

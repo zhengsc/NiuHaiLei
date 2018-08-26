@@ -5,7 +5,7 @@
 			<div class="story-title-info">
 				<h3>{{story.title}}</h3>
 				<div class="title-info-wrap">
-					<el-tag type="info" size="mini">{{story.tag}}</el-tag>
+					<!-- <el-tag type="info" size="mini">{{story.tag}}</el-tag> -->
 					<span>原作者：{{story.author}}</span>
 					<span><img src="../../assets/images/story-tag-date-icon.png" alt="">{{getDateString(story.addtime)}}</span>
 					<span><img src="../../assets/images/story-tag-scan-icon.png" alt="">{{story.click}}</span>
@@ -32,8 +32,8 @@
 			</div>
 			<div class="story-tool-wrap">
 				<div class="story-change-page">
-					<div><a v-if="front" :href="front.id">上一篇：{{story.prevPage.title}}</a></div>
-					<div><a v-if="after" :href="after.id">下一篇：{{story.nextPage.title}}</a></div>
+					<div><a v-if="front" :href="front.id">上一篇：{{front.title}}</a></div>
+					<div><a v-if="after" :href="after.id">下一篇：{{after.title}}</a></div>
 				</div>
 				<div class="story-about-story">
 					<h5>
@@ -86,7 +86,7 @@
 					title: '八字，当官的命',
 					id: '1'
 				},
-				storyAboutList: Mock.storyList.slice(0, 4)
+				storyAboutList: []
 			}
 		},
 		components: {
@@ -113,7 +113,7 @@
 					this.story = response.data.info
 					this.after = response.data.after
 					this.front = response.data.front
-					console.log(this.story)
+					this.storyAboutList = response.data.other
 				}).catch(error => {
 
 				})

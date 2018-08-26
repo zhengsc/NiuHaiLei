@@ -1,11 +1,11 @@
 <template>
 	<div class="about-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
-		<div class="about-container">
-			<img src="../assets/images/about-head-img.jpg" alt="" />
+		<div class="about-container" v-html="aboutUsHtml">
+			<!-- <img src="../assets/images/about-head-img.jpg" alt="" />
 			<p>
 				关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们
-			</p>
+			</p> -->
 		</div>
 	</div>
 </template>
@@ -22,11 +22,24 @@
 						en: 'ABOUT US'
 					},
 					address: ['关于我们']
-				}
+				},
+				aboutUsHtml: ''
 			}
 		},
 		components: {
 			Breadcrumb,
+		},
+		created() {
+			this.getData()
+		},
+		methods: {
+			getData() {
+				this.$http.post(this.Api.POST_ABOUT_USE_INFO).then(response => {
+					this.aboutUsHtml = response.data.content
+				}).catch(error => {
+
+				})
+			}
 		}
 	}
 </script>
