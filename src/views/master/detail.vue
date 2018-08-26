@@ -3,7 +3,12 @@
 		<Breadcrumb :breadcrumb="breadcrumb" />
 		<div class="master-personal-info">
 			<div class="master-personal-img">
-				<el-carousel :interval="3000" arrow="always" class="maser-personal-carousel-item">
+				<el-carousel 
+					:interval="3000" 
+					arrow="always" 
+					class="maser-personal-carousel-item"
+					indicator-position="none"
+				>
 					<el-carousel-item
 						v-for="(carousel, index) in masterDetail.images"
 						:key="index"
