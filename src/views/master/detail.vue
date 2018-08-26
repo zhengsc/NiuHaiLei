@@ -103,7 +103,9 @@
 				<div class="comment-write-line">
 					<img src="../../assets/images/master-detail-comment-write-user.jpg" alt="">
 					<p>
-						<el-input placeholder="写下你的评论..."></el-input>
+						<el-input class="comment-write-input" placeholder="写下你的评论..." v-model="userInputData.comment">
+							<template slot="append">{{userInputData.comment.length}}/{{totalComment}}</template>
+						</el-input>
 					</p>
 					<el-button type="primary">发送</el-button>
 				</div>
@@ -136,6 +138,10 @@
 					},
 					address: ['大师列表', '>', '详情'],
 				},
+				userInputData: {
+					comment: '',
+				},
+				totalComment: 200,
 				masterDetail: {
 					name: '罗永丰',
 					tags: ['风水', '八卦', '周易'],
@@ -182,7 +188,7 @@
 							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
 							username: '匿名用户',
 							date: '2018-08-25',
-							context: '算的很准'
+							context: '特别准，而且会告诉你很多别的需要注意的事，感谢了，还会再次结缘的特别准，而且会告诉你很多别的需要注意的事，感谢了，还会再次结缘的特别准，而且会告诉你很多别的需要注意的事，感谢了，还会再次结缘的'
 						},
 						{
 							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
@@ -204,17 +210,27 @@
 						}
 					]
 				},
-				otherMasterList: mockData.masterList
+				otherMasterList: mockData.masterList.slice(0, 4)
 			}
 		},
 		components: {
 			Breadcrumb,
 			Master,
+		},
+		watch: {
+			'userInputData.comment': {
+				handler: function(val) {
+					this.$nextTick(() => {
+						this.userInputData.comment = val.slice(0, this.totalComment)
+					})
+				},
+				deep: true
+			}
 		}
 	}
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 	.master-detail-wrap 
 		width 1100px
 		height auto 
@@ -247,37 +263,44 @@
 					display flex
 					justify-content space-between
 					align-items center
+					border-bottom 1px solid #dedede
+					padding-bottom 10px
+					margin-bottom 20px
 
 					h3 
 						font-size 16px
+						color #5f3736
 
 					.master-tag 
 						margin-left 10px
 
 				.master-desc
 					p 
-						font-size 14px
+						font-size 12px
 						line-height 1.8
 						text-align left
 						text-indent 2em
+						color #090909
 
 		.master-plate-title
 			color #ffffff
-			background-color #cccccc
-			height 30px
+			background-color #ececec
+			height 70px
 			display flex
 			justify-content flex-start
 			align-items center
 
 			span
 				padding-left 10px
-				border-left #ff0000 4px solid 
-				margin-left 10px
-				font-size 14px
-				line-height 1
+				border-left #5f3736 3px solid 
+				margin-left 16px
+				font-size 18px
+				line-height 1.2
+				font-weight normal
+				color #5f3736
 
 		.master-server-info
-			margin-top 20px
+			margin-top 40px
 			
 			.master-server-list
 				display flex
@@ -286,12 +309,11 @@
 				flex-wrap wrap 
 				padding 20px
 				padding-bottom 0
-				border 1px solid #ccc
+				border 1px solid #d9d9d9
 
 				.master-server-item 
 					width 520px
-					height 80px
-					background-color: #ff0000
+					height 100px
 					display flex
 					justify-content center
 					align-items center
@@ -306,8 +328,8 @@
 					.item-desc
 						flex-grow 1
 						text-align left
-						padding 10px 20px
-						background-color #ccc
+						padding 15px 20px
+						background-color #ececec
 						height 100%
 						display flex
 						align-items flex-start
@@ -315,25 +337,36 @@
 						justify-content flex-start
 
 						.item-desc-title 
-							font-size 16px
+							font-size 18px
 
 							span 
 								&:last-child 
-									color #ff0000
+									color #c80d0d
 									margin-left 6px
 
 									span 
 										font-weight bold
 
 						.item-desc-text 
-							font-size 12px
+							font-size 14px
+							margin-top 8px
 					
 					.item-status
 						width 120px
+						height 100%
+						color #fff
+						font-size 18px
 						flex-shrink 0
+						display flex
+						flex-direction column
+						justify-content center
+						align-items center
+						background-color: #5f3736
+						border-radius 4px
+						line-height 1.6
 
 		.master-comments-info
-			margin-top 30px
+			margin-top 40px
 
 			.master-comments-list
 				height auto
@@ -344,7 +377,7 @@
 					justify-content center
 					align-items center
 					padding 0 20px
-					border-bottom 1px dashed #cccccc						
+					border-bottom 1px dashed #d9d9d9						
 
 					.comment-container
 						flex-grow 1
@@ -358,25 +391,37 @@
 								width 40px
 								height 40px
 								margin-right 8px
-							
-							p 
-								text-align left
 
-								&.comment-user-line 
-									font-size 14px
-								
-								&.comment-date-line 
-									font-size 10px
-									color #ccc
+							div 
+								display flex
+								flex-direction column 
+								justify-content space-between
+								align-items flex-start
+								height 40px
+							
+								p 
+									text-align left
+
+									&.comment-user-line 
+										font-size 14px
+									
+									&.comment-date-line 
+										font-size 12px
+										color #ccc
 
 						.comment-context 
 							text-align left
-							margin-top 10px
+							margin-top 15px
+							font-size 16px
+							padding-right 20px 
+
+					.cmment-tool
+						font-size 16px
 
 			.master-comment-write 
 				margin-top 10px
 				padding 15px
-				background #cccccc
+				background #fafafa
 				border-radius 4px
 
 				.comment-write-line
@@ -391,10 +436,25 @@
 
 					p 
 						flex-grow 1
-						margin-right 5px
+						margin-right 10px
+						position relative
+
+						// .comment-write-input
+						// 	input
+						// 		padding-right 70px
+
+						span 
+							position absolute 
+							top 0
+							right 10px
+							display flex
+							height 100%
+							justify-content flex-end
+							align-items center
+							font-size 12px
 
 		.master-other-list
-			margin-top 30px
+			margin-top 40px
 
 </style>
 

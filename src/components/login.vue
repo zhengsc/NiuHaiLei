@@ -4,7 +4,7 @@
 			<div v-if="loginContainerShow" :class="['login-container', loginType === 'phone' ? 'phone-login' : '']">
 				<img class="login-close" @click="closeLoginWrapHandler" src="../assets/images/close-icon.png" alt="">
 				<div v-if="loginType === 'phone'" class="phone-login-module">
-					<div class="login-desc-line">
+					<!-- <div class="login-desc-line">
 						<img src="../assets/images/login-head-line-icon.jpg" alt="">
 						<div>
 							<h3>绑定手机</h3>
@@ -13,31 +13,30 @@
 								<span>根据法律相关规定，用户需绑定真实手机号进行相关验证</span>
 							</p>
 						</div>
-					</div>
+					</div> -->
+					<h3>登录</h3>
 					<div class="login-input-wrap">
-						<el-form
-							label-position="left"
-							label-width="70px"
-						>
+						<el-form>
 							<el-form-item
-								label="手机号:"
+								label=""
 							>
-								<el-input v-model="loginObj.phone" placeholder="请输入手机号"></el-input>
+								<el-input v-model="loginObj.phone" placeholder="手机号"></el-input>
 							</el-form-item>
 							<el-form-item
-								label="验证码:"
+								label=""
 							>
 								<div class="login-form-code-line">
-									<el-input class="code-line-input" v-model="loginObj.code" placeholder="请输入验证码"></el-input>
+									<el-input class="code-line-input" v-model="loginObj.code" placeholder="验证码"></el-input>
 									<el-button 
+										type="text"
 										class="code-line-button" 
 										:disabled="isSendingCode"
 										@click="sendCodeHandler"
-									>{{isSendingCode ? countDown + ' S' : '点击发送'}}</el-button>
+									>{{isSendingCode ? countDown + ' S' : '发送验证码'}}</el-button>
 								</div>
 							</el-form-item>
 							<el-form-item
-								label="支付码:"
+								label=""
 							>
 								<el-input placeholder="支付码（选题）" v-model="loginObj.payCode"></el-input>
 							</el-form-item>
@@ -47,9 +46,15 @@
 									type="primary" 
 									:disabled="submitInfoBtnDisabled"
 									@click="login"
-								>提交</el-button>
+								>登录</el-button>
 							</div>
 						</el-form>
+					</div>
+					<div class="login-tool-wrap">
+						<p>
+							<span>没有帐号？</span>
+							<a href="javascipt:;" @click="go2Register">立即注册</a>
+						</p>
 					</div>
 				</div>
 				<div v-if="loginType === 'thirdPart'" class="third-part-login-container">
@@ -189,6 +194,8 @@
 		display flex
 		justify-content center
 		align-items center
+		color #919191
+		z-index 999999999
 
 		.login-container
 			width 500px
@@ -201,6 +208,7 @@
 
 			&.phone-login 
 				height 420px
+				width 440px
 
 			.login-close
 				width 14px
@@ -209,9 +217,13 @@
 				top 30px
 				right 20px
 				cursor pointer
+				z-index 10
 
 		.phone-login-module
 			width 100%
+
+			h3 
+				color #2b2b2b
 
 			.login-desc-line 
 				height 80px
@@ -231,6 +243,7 @@
 					
 					h3 
 						font-size 16px
+						color #2b2b2b
 
 					p 
 						font-size 12px
@@ -247,35 +260,48 @@
 							margin-left 0
 
 			.login-input-wrap
-				width 340px
+				width 280px
 				margin auto
 				margin-top 40px
 
 				.login-form-code-line
+					position relative
 					display flex
 					justify-content center
 					align-items center
 
 					.code-line-button
 						margin-left 10px
-						color #fff
-						background-color #0060cd
+						color #008aff
+						position absolute 
+						top 0
+						right 10px
+						// background-color #0060cd
 
 				.login-form-tool-wrap
 					text-align center
 
 					.login-form-submit
-						width 220px
+						width 100%
 						margin-top 10px
+
+			.login-tool-wrap
+				margin-top 30px
+				text-align right
+				font-size 14px
+
+				a 
+					color #008aff
 
 		.third-part-login-container 
 			
 			h3 
 				text-align center
+				color #2b2b2b
 			
 			.third-part-list
 				display flex
-				justify-content center
+				justify-content space-around
 				align-items center
 				margin 40px 0
 
@@ -284,7 +310,7 @@
 					justify-content center
 					align-items center
 					flex-direction column
-					width 50%
+					width 100px
 					cursor pointer
 
 					img 
@@ -302,6 +328,10 @@
 				margin-top 20px
 
 				a 
-					color: #0000ff
+					color #919191
+
+				p:last-child 
+					a 
+						color: #008aff
 </style>
 

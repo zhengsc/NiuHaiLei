@@ -202,6 +202,8 @@
 		display flex
 		justify-content center
 		align-items center
+		color #919191
+		z-index 999999999
 
 		.register-container
 			width 500px
@@ -222,6 +224,7 @@
 				top 30px
 				right 20px
 				cursor pointer
+				z-index 10
 
 			.phone-binding-module
 				width 100%
@@ -244,6 +247,7 @@
 
 						h3 
 							font-size 16px
+							color #2b2b2b
 
 						p 
 							font-size 12px
@@ -288,10 +292,11 @@
 
 				h3 
 					text-align center 
+					color #2b2b2b
 
 				.third-part-list
 					display flex
-					justify-content center
+					justify-content space-around
 					align-items center
 					margin 30px 0
 
@@ -300,7 +305,7 @@
 						justify-content center
 						align-items center
 						flex-direction column
-						width 50%
+						width 100px
 						cursor pointer
 
 						img 
@@ -329,7 +334,7 @@
 					margin-top 20px
 
 					a 
-						color #00f
+						color #008aff
 
 
 

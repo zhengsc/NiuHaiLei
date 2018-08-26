@@ -1,16 +1,16 @@
 <template>
 	<div class="story-detail-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb"></Breadcrumb>
-		<div class="story-detail-wrap">
+		<div class="story-detail-container">
 			<div class="story-title-info">
 				<h3>{{story.title}}</h3>
 				<div class="title-info-wrap">
 					<el-tag type="info" size="mini">{{story.tag}}</el-tag>
 					<span>原作者：{{story.author}}</span>
-					<span><img src="" alt="">{{story.createDate}}</span>
-					<span><img src="" alt="">{{story.readCount}}</span>
+					<span><img src="../../assets/images/story-tag-date-icon.png" alt="">{{story.createDate}}</span>
+					<span><img src="../../assets/images/story-tag-scan-icon.png" alt="">{{story.readCount}}</span>
 					<span>
-						来自<a :href="story.referrer" target="_blank">{{story.referrer}}</a>
+						来自：<a :href="story.referrer" target="_blank">{{story.referrer}}</a>
 					</span>
 				</div>
 			</div>
@@ -72,7 +72,7 @@
 				story: {
 					title: '八字，当官的命',
 					tag: '原创',
-					author: '作者名称',
+					author: '杨青娟',
 					createDate: '2018-08-23 12:19',
 					readCount: 15,
 					referrer: 'www.baidu.com',
@@ -106,7 +106,12 @@
 </script>
 
 <style lang="stylus" scoped>
-	.story-detail-wrap
+	.story-detail-wrap 
+		height auto
+		overflow hidden
+		background-color #fffcf5
+
+	.story-detail-container
 		width 1100px
 		height auto 
 		margin 20px auto 
@@ -133,9 +138,9 @@
 
 					img 
 						display block
-						width 10px
-						height 10px
-						border 1px solid #f00
+						width 14px
+						height 14px
+						margin-right 5px
 
 		.story-conetnt-wrap
 			font-size 14px
@@ -162,19 +167,21 @@
 				margin-top 50px
 
 				h5 
-					height 34px
-					text-align left 
-					background-color #cccccc
-					border-radius 4px
+					color #ffffff
+					background-color #ececec
+					height 70px
+					display flex
+					justify-content flex-start
+					align-items center
 
 					span 
-						// display flex
-						// justify-content center
-						// align-items center
-						padding-left 8px
-						line-height 34px
-						margin-left 8px
-						border-left 4px solid #f00
+						padding-left 10px
+						border-left #5f3736 3px solid 
+						margin-left 16px
+						font-size 18px
+						line-height 1.2
+						font-weight normal
+						color #5f3736
 
 				.about-story-list
 					display flex
