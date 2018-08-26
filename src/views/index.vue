@@ -71,7 +71,7 @@
 					<el-form-item class="user-input-item" prop="hour">
 						<el-select
 							placeholder="时"
-							class="w130"
+							class="w180"
 							v-model="userInputData.hour"
 							clearable
 						>
@@ -154,7 +154,19 @@
 				this.setDateList()
 			}
 		},
+		created() {
+			this.getMasterList()
+		},
 		methods: {
+			getMasterList: function() {
+				this.$http.post(this.Api.POST_MASTER_LIST, {
+					page: 1
+				}).then(response => {
+					this.masterList = response.data
+				}).catch(error => {
+					console.log(error)
+				})
+			},
 			setDateList() {
 				if(this.userInputData.year && this.userInputData.month) {
 					let date = new Date(this.userInputData.year, this.userInputData.month, 0)
@@ -200,10 +212,7 @@
 				margin 30px 0
 
 				.user-input-item
-					height 40px
-
-					.w130
-						width 130px
+					height 40px					
 
 			.user-submit-data-button 
 				display flex
@@ -236,6 +245,11 @@
 					text-align center
 					background url('../assets/images/index-master-list-title.png') no-repeat center bottom 
 					background-size 485px 12px
-			
+
+	.w130
+		width 130px
+
+	.w180 
+		width 180px		
 </style>
 

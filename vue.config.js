@@ -4,11 +4,15 @@ module.exports = {
 	productionSourceMap: false,
 	runtimeCompiler: true,
 	devServer: {
-		// proxy: {
-		// 	'/api': {
-		// 		target: '',
-		// 		changeOrigin: true
-		// 	}
-		// }
+		proxy: {
+			'/home': {
+				target: 'http://operation.zhengsc.com',
+				changeOrigin: true
+			},
+			'/user': {
+				target: 'http://operation.zhengsc.com',
+				changeOrigin: true
+			}
+		}
 	}
 }

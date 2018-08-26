@@ -91,7 +91,7 @@
 						<el-form-item class="form-item" prop="hour">
 							<el-select
 								placeholder="时"
-								class="w130"
+								class="w180"
 								v-model="userSubmitInfo.hour"
 								clearable
 							>
@@ -246,6 +246,9 @@
 
 	.w130
 		width 130px
+		height 40px
+	.w180
+		width 180px
 		height 40px
 	.w300
 		width 300px

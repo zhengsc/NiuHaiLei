@@ -7,15 +7,15 @@
 				<div class="title-info-wrap">
 					<el-tag type="info" size="mini">{{story.tag}}</el-tag>
 					<span>原作者：{{story.author}}</span>
-					<span><img src="../../assets/images/story-tag-date-icon.png" alt="">{{story.createDate}}</span>
-					<span><img src="../../assets/images/story-tag-scan-icon.png" alt="">{{story.readCount}}</span>
+					<span><img src="../../assets/images/story-tag-date-icon.png" alt="">{{getDateString(story.addtime)}}</span>
+					<span><img src="../../assets/images/story-tag-scan-icon.png" alt="">{{story.click}}</span>
 					<span>
-						来自：<a :href="story.referrer" target="_blank">{{story.referrer}}</a>
+						来自：<a :href="story.from" target="_blank">{{story.from}}</a>
 					</span>
 				</div>
 			</div>
-			<div class="story-conetnt-wrap">
-				<p>这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。</p>
+			<div class="story-conetnt-wrap" v-html="story.content">
+				<!-- <p>这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。这里会是一段富文本，这里只做示例。</p>
 				<p>这是一段富文本，这里只做示例</p>
 				<p>这是一段富文本，这里只做示例</p>
 				<p>这是一段富文本，这里只做示例</p>
@@ -28,12 +28,12 @@
 				<p>这是一段富文本，这里只做示例</p>
 				<p>这是一段富文本，这里只做示例</p>
 				<p>这是一段富文本，这里只做示例</p>
-				<p>这是一段富文本，这里只做示例</p>
+				<p>这是一段富文本，这里只做示例</p> -->
 			</div>
 			<div class="story-tool-wrap">
 				<div class="story-change-page">
-					<div><a :href="story.prevPage.href">上一篇：{{story.prevPage.title}}</a></div>
-					<div><a :href="story.nextPage.href">下一篇：{{story.nextPage.title}}</a></div>
+					<div><a v-if="front" :href="front.id">上一篇：{{story.prevPage.title}}</a></div>
+					<div><a v-if="after" :href="after.id">下一篇：{{story.nextPage.title}}</a></div>
 				</div>
 				<div class="story-about-story">
 					<h5>
@@ -73,17 +73,18 @@
 					title: '八字，当官的命',
 					tag: '原创',
 					author: '杨青娟',
-					createDate: '2018-08-23 12:19',
-					readCount: 15,
-					referrer: 'www.baidu.com',
-					nextPage: {
-						title: '八字，当官的命',
-						href: 'www.baidu.com'
-					},
-					prevPage: {
-						title: '八字，当官的命',
-						href: 'www.baidu.com'
-					},
+					addtime: '2018-08-23 12:19',
+					click: 15,
+					from: 'www.baidu.com',
+					content: '',
+				},
+				after: {
+					title: '八字，当官的命',
+					id: '1'
+				},
+				front: {
+					title: '八字，当官的命',
+					id: '1'
 				},
 				storyAboutList: Mock.storyList.slice(0, 4)
 			}
@@ -93,13 +94,32 @@
 			StoryItem,
 		},
 		created() {
-			console.log('来自created')
-			console.log(this.$route)
+			let id = this.$route.query.id
+
+			this.getStoryDetail(id)
 		},
 		watch: {
 			'$route': function() {
-				console.log('watch')
-				console.log(this.$route)
+				let id = this.$route.query.id
+
+				this.getStoryDetail(id)
+			}
+		},
+		methods: {
+			getStoryDetail(id) {
+				this.$http.post(this.Api.POST_STORY_DETAIL, {
+					id,
+				}).then(response => {
+					this.story = response.data.info
+					this.after = response.data.after
+					this.front = response.data.front
+					console.log(this.story)
+				}).catch(error => {
+
+				})
+			},
+			getDateString(timestamp) {
+				return Util.getDateString(timestamp)
 			}
 		}
 	}

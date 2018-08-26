@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Qs from 'qs'
+import Api from './api.js'
 import axios from './axios'
 import {
   Input,
@@ -29,6 +30,7 @@ import {
 import './assets/styles/element-ui.scss'
 
 Vue.prototype.$qs = Qs
+Vue.prototype.Api = Api
 
 Vue.use(Input)
 Vue.use(Radio)
@@ -49,13 +51,11 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 
 Vue.use(axios, {
-  baseURL: process.env.NODE_ENV === 'development' ? '/' : 'http://www.test.com'
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://operation.zhengsc.com' : 'http://www.test.com'
 })
 
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$message = Message
-
-console.log(process.env.NODE_ENV)
 
 Vue.config.productionTip = false
 

@@ -4,8 +4,8 @@
 		@click="go2StoryDetail(story.id)"
 	>
 		<!-- <div> -->
-			<img :src="story.picture" alt="">
-			<p>{{story.desc}}</p>
+			<img :src="story.thumb" alt="">
+			<p>{{story.title}}</p>
 		<!-- </div> -->
 	</div>
 </template>

@@ -45,3 +45,9 @@ a {
 	transform: translateX(30px);
 	opacity: 0;
 }
+
+.el-loading-spinner i,
+.el-loading-spinner .el-loading-text {
+	color: #fff !important
+}
+

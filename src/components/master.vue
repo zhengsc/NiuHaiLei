@@ -7,7 +7,7 @@
 			@click="go2MasterDetail(master.id)"
 		>
 			<div class="master-detail-img">
-				<img :src="master.picture" alt="">
+				<img :src="master.logo" alt="">
 			</div>
 			<div class="master-detail-text-wrap">
 				<div class="master-detail-name">
@@ -16,14 +16,14 @@
 				</div>
 				<div class="master-detail-tag">
 					<el-tag 
-						v-for="(tag, index) in master.tags"
+						v-for="(tag, index) in master.mark"
 						:key="index"
 						size="mini"
 						class="tag-item"
 					>{{tag}}</el-tag>
 				</div>
 				<div class="master-detail-desc">
-					<p>{{master.desc}}</p>
+					<p>{{master.description}}</p>
 				</div>
 			</div>
 		</div>

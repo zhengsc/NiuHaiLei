@@ -13,6 +13,8 @@ axios.interceptors.request.use(function(config) {
 		spinner: 'el-icon-loading',
 		background: 'rgba(0, 0, 0, 0.7)',
 	})
+
+	console.log(config)
 	
 	return config
 }, function(err) {
@@ -22,6 +24,10 @@ axios.interceptors.request.use(function(config) {
 axios.interceptors.response.use(function(response) {
 
 	let resp = response.data
+
+	if(resp.status !== 200) {
+		return Promise.reject(response)
+	}
 
 	loading.close()
 
@@ -53,7 +59,7 @@ axios.post = function(url, data, config) {
 }
 
 axios.install = (Vue, opt) => {
-	axios.defaults.baseURL = opt.baseUrl
+	axios.defaults.baseURL = opt.baseURL
 	axios.defaults.timeout = 10000
 	
 	Vue.prototype.$http = axios
