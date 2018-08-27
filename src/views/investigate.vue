@@ -1,8 +1,8 @@
 <template>
 	<div class="investigate-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
-		<div class="investigate-container">
-			<div 
+		<div class="investigate-container" v-html="investigateContentHtml">
+			<!-- <div 
 				v-for="(invest, index) in investList"
 				:key="index"
 				:class="['investigate-text-info', index % 2 === 1 ? 'reverse' : '']"
@@ -14,7 +14,7 @@
 				<div class="image">
 					<img :src="invest.image" alt="">
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="investigate-contcat-wrap">
 			<div class="address">
@@ -65,7 +65,8 @@
 						content: '实地考察实地考察实地考察实地考察实地考察实地考察实地考察实地考察实地考察实地考察实地考察实地考察实地考察实地考察',
 						image: require('../assets/images/investigate-text-image.jpg')
 					}
-				]
+				],
+				investigateContentHtml: ''
 			}
 		},
 		components: {
@@ -77,7 +78,7 @@
 		methods: {
 			getData() {
 				this.$http.post(this.Api.POST_INVESTIGATE_INFO).then(response => {
-					
+					this.investigateContentHtml = response.data.content
 				})
 			}
 		}

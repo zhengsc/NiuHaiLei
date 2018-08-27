@@ -10,7 +10,7 @@
 					indicator-position="none"
 				>
 					<el-carousel-item
-						v-for="(carousel, index) in masterDetail.images"
+						v-for="(carousel, index) in masterDetail.info.thumb"
 						:key="index"
 					>
 						<img :src="carousel" alt="" />
@@ -20,10 +20,10 @@
 			</div>
 			<div class="master-personal-text">
 				<div class="master-title">
-					<h3>{{masterDetail.name}}</h3>
+					<h3>{{masterDetail.info.name}}</h3>
 					<span>
 						<el-tag 
-							v-for="(tag, index) in masterDetail.tags"
+							v-for="(tag, index) in masterDetail.info.biaoqian"
 							:key="index"
 							size="mini"
 							class="master-tag"
@@ -33,7 +33,7 @@
 					</span>
 				</div>
 				<div class="master-desc">
-					<p>{{masterDetail.desc}}</p>
+					<p>{{masterDetail.info.description}}</p>
 				</div>
 			</div>
 		</div>
@@ -44,19 +44,19 @@
 			<div class="master-server-list">
 				<div 
 					class="master-server-item" 
-					v-for="(server, index) in masterDetail.services"
+					v-for="(server, index) in masterDetail.fuwu"
 					:key="index"
 				>
 					<div class="item-desc">
 						<p class="item-desc-title">
-							<span>{{server.name}}</span>
+							<span>{{server.title}}</span>
 							<span>
-								<span>{{server.price}}</span>
+								<span>{{server.money}}</span>
 								/次
 							</span>
 						</p>
 						<p class="item-desc-text">
-							<span>{{server.desc}}</span>
+							<span>{{server.content}}</span>
 						</p>
 					</div>
 					<div class="item-status">
@@ -116,7 +116,7 @@
 				<span>其他大师</span>
 			</h3>
 			<div class="other-list-container">
-				<Master :masterList="otherMasterList" />
+				<Master :masterList="masterDetail.other" />
 			</div>
 		</div>
 	</div>
@@ -143,6 +143,17 @@
 				},
 				totalComment: 200,
 				masterDetail: {
+					info: {
+						content: '',
+						description: '',
+						logo: '',
+						name: '',
+						biaoqian: [],
+						thumb: [],
+					},
+					other: [],
+					fuwu: [],
+
 					name: '罗永丰',
 					tags: ['风水', '八卦', '周易'],
 					images: [
@@ -225,6 +236,25 @@
 					})
 				},
 				deep: true
+			},
+			'$route'() {
+				let id = this.$route.query.id
+
+				this.getMasterDetail(id)
+			}
+		},
+		created() {
+			let id = this.$route.query.id
+
+			this.getMasterDetail(id)
+		},
+		methods: {
+			getMasterDetail(id) {
+				this.$http.post(this.Api.POST_MASTER_DETAIL, {
+					id,
+				}).then(response => {
+					this.masterDetail = response.data
+				})
 			}
 		}
 	}

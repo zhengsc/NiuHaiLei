@@ -7,7 +7,7 @@
 		<div class="master-list-pagination">
 			<el-pagination
 				:page-size="pagination.pageSize"
-				:total="pagination.total"
+				:page-count="pagination.pageCount"
 				:current-page="pagination.page"
 				:layout="pagination.layout"
 				:prev-text="pagination.prevText"
@@ -38,7 +38,7 @@
 				masterList: mockData.masterList,
 				pagination: {
 					pageSize: 8,
-					total: 80,
+					pageCount: 1,
 					page: 1,
 					layout: 'prev, pager, next',
 					prevText: '上一页',
@@ -50,10 +50,22 @@
 			Breadcrumb,
 			Master,
 		},
+		created() {
+			console.log(111)
+			this.getMasterList()
+		},
 		methods: {
 			changeCurrentPageHandler(page) {
 				this.pagination.page = page
 				// TODO GET DATA
+			},
+			getMasterList() {
+				this.$http.post(this.Api.POST_MASTER_LIST, {
+					page: this.pagination.page,
+				}).then(response => {
+					this.masterList = response.data
+					this.pagination.pageCount = response.pagetotal
+				}).catch(error => {})
 			}
 		}
 	}

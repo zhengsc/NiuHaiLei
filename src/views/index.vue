@@ -2,89 +2,102 @@
 	<div class="index-wrap">
 		<div class="index-user-input-area-wrap">
 			<h3>精准测算</h3>
-			<div class="user-submit-data-form">
-				<el-form
-					:model="userInputData"
-					:rules="userInputRules"
-					ref="userSubmitForm"
-					inline
-				>
-					<el-form-item class="user-input-item" prop="name">
-						<el-input v-model="userInputData.name" placeholder="姓名"></el-input>
-					</el-form-item>
-					<el-form-item class="user-input-item" prop="sex">
-						<el-select placeholder="性别" class="w130" v-model="userInputData.sex">
-							<el-option value="1" label="男"></el-option>
-							<el-option value="2" label="女"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item class="user-input-item" prop="type">
-						<el-select placeholder="阳历/农历" class="w130" v-model="userInputData.type">
-							<el-option value="1" label="阳历"></el-option>
-							<el-option value="2" label="农历"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item class="user-input-item" prop="year">
-						<el-date-picker
-							type="year"
-							placeholder="年"
-							class="w130"
-							format="yyyy"
-							value-format="yyyy"
-							v-model="userInputData.year"
-						></el-date-picker>
-					</el-form-item>
-					<el-form-item class="user-input-item" prop="month">
-						<el-select
-							placeholder="月"
-							class="w130"
-							v-model="userInputData.month"
-							:disabled="!userInputData.year"
-							clearable
-						>
-							<span slot="prefix" class="el-icon-date"></span>
-							<el-option 
-								v-for="m in monthes"
-								:key="m.id"
-								:label="m.text"
-								:value="m.id"
-							></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item class="user-input-item" prop="date">
-						<el-select
-							placeholder="日"
-							class="w130"
-							v-model="userInputData.date"
-							:disabled="!userInputData.year && !userInputData.month"
-							clearable
-						>
-							<span slot="prefix" class="el-icon-date"></span>
-							<el-option 
-								v-for="d in dates"
-								:key="d"
-								:label="d"
-								:value="d"
-							></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item class="user-input-item" prop="hour">
-						<el-select
-							placeholder="时"
-							class="w180"
-							v-model="userInputData.hour"
-							clearable
-						>
-							<el-option 
-								v-for="time in timeNotc"
-								:key="time.id"
-								:value="time.id"
-								:label="time.text"
-							></el-option>
-						</el-select>
-					</el-form-item>
-				</el-form>
-			</div>
+			<form action="http://test.zhengsc.com/index.php" method="post" id="form" name="login">
+				<!-- <input type="text" name="xing" />
+				<input type="text" name="ming" />
+				<button type="submit">提交</button> -->
+			
+				<div class="user-submit-data-form">
+					<el-form
+						:model="userInputData"
+						:rules="userInputRules"
+						ref="userSubmitForm"
+						inline
+					>
+						<el-form-item class="user-input-item" prop="firstName">
+							<el-input name="xing" v-model="userInputData.firstName" placeholder="姓"></el-input>
+						</el-form-item>
+						<el-form-item class="user-input-item" prop="lastName">
+							<el-input name="ming" v-model="userInputData.lastName" placeholder="名"></el-input>
+						</el-form-item>
+						<el-form-item class="user-input-item" prop="sex">
+							<el-select name="sex" placeholder="性别" class="w130" v-model="userInputData.sex">
+								<el-option value="0" label="男"></el-option>
+								<el-option value="1" label="女"></el-option>
+							</el-select>
+						</el-form-item>
+						<!-- <el-form-item class="user-input-item" prop="type">
+							<el-select placeholder="阳历/农历" class="w130" v-model="userInputData.type">
+								<el-option value="1" label="阳历"></el-option>
+								<el-option value="2" label="农历"></el-option>
+							</el-select>
+						</el-form-item> -->
+						<el-form-item class="user-input-item" prop="year">
+							<el-date-picker
+								type="year"
+								placeholder="年"
+								class="w130"
+								format="yyyy"
+								value-format="yyyy"
+								v-model="userInputData.year"
+								name="y"
+							></el-date-picker>
+						</el-form-item>
+						<el-form-item class="user-input-item" prop="month">
+							<el-select
+								placeholder="月"
+								class="w130"
+								v-model="userInputData.month"
+								:disabled="!userInputData.year"
+								clearable
+								name="m"
+							>
+								<span slot="prefix" class="el-icon-date"></span>
+								<el-option 
+									v-for="m in monthes"
+									:key="m.id"
+									:label="m.text"
+									:value="m.id"
+								></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item class="user-input-item" prop="date">
+							<el-select
+								placeholder="日"
+								class="w130"
+								v-model="userInputData.date"
+								:disabled="!userInputData.year && !userInputData.month"
+								clearable
+								name="d"
+							>
+								<span slot="prefix" class="el-icon-date"></span>
+								<el-option 
+									v-for="d in dates"
+									:key="d"
+									:label="d"
+									:value="d"
+								></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item class="user-input-item" prop="hour">
+							<el-select
+								placeholder="时"
+								class="w140"
+								v-model="userInputData.hour"
+								clearable
+								name="h"
+							>
+								<el-option 
+									v-for="time in timeNotc"
+									:key="time.id"
+									:value="time.id"
+									:label="time.text"
+								></el-option>
+							</el-select>
+						</el-form-item>
+					</el-form>
+				</div>
+			</form>
 			<div class="user-submit-data-button">
 				<button class="user-submit-button" @click="validateUserSubmitData">提交</button>
 			</div>
@@ -108,7 +121,8 @@
 			return {
 				timeNotc: Util.timeNotc,
 				userInputData: {
-					name: '',
+					firstName: '',
+					lastName: '',
 					sex: '',
 					type: '',
 					year: '',
@@ -117,7 +131,8 @@
 					hour: '',
 				},
 				userInputRules: {
-					name: [ { required: true, message: '请输入姓名' } ],
+					firstName: [ { required: true, message: '请输入姓' } ],
+					lastName: [ { required: true, message: '请输入名' } ],
 					sex: [ { required: true, message: '请选择性别' } ],
 					type: [ { required: true, message: '请选择阴历/农历' } ],
 					year: [ { required: true, message: '请选择出生年份' } ],
@@ -181,9 +196,28 @@
 			validateUserSubmitData() {
 				this.$refs.userSubmitForm.validate(valid => {
 					if(valid) {
-						this.$message.success('提交成功')
+						this.submitUserData()
 					}
 				})
+			},
+			submitUserData() {
+				let f = new FormData(),
+					d = this.userInputData
+
+				// f.append('xing', d.firstName)
+				// f.append('ming', d.lastName)
+				// f.append('sex', d.sex)
+				// f.append('y', d.year)
+				// f.append('m', d.month)
+				// f.append('d', d.date)
+				// f.append('h', d.hour)
+
+				// this.$http.post(this.Api.POST_DIVINATION_DATA, f).then(response => {
+				// 	console.log(response)
+				// }).catch(error => {
+				// 	console.log(error)
+				// })
+				document.querySelector('#form').submit()
 			}
 		}
 	}
@@ -249,7 +283,7 @@
 	.w130
 		width 130px
 
-	.w180 
-		width 180px		
+	.w140 
+		width 140px		
 </style>
 
