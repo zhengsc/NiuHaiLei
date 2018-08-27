@@ -70,21 +70,21 @@
 					address: ['命理故事', '>', '详情'],
 				},
 				story: {
-					title: '八字，当官的命',
-					tag: '原创',
-					author: '杨青娟',
-					addtime: '2018-08-23 12:19',
-					click: 15,
-					from: 'www.baidu.com',
+					title: '',
+					tag: '',
+					author: '',
+					addtime: '',
+					click: 0,
+					from: '',
 					content: '',
 				},
 				after: {
-					title: '八字，当官的命',
-					id: '1'
+					title: '',
+					id: ''
 				},
 				front: {
-					title: '八字，当官的命',
-					id: '1'
+					title: '',
+					id: ''
 				},
 				storyAboutList: []
 			}

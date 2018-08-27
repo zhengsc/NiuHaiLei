@@ -51,7 +51,7 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 
 Vue.use(axios, {
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://operation.zhengsc.com' : 'http://www.test.com'
+  baseURL: process.env.NODE_ENV === 'development' ? 'http://operation.zhengsc.com' : 'http://operation.zhengsc.com'
 })
 
 Vue.prototype.$loading = Loading.service
