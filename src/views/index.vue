@@ -6,7 +6,19 @@
 				<!-- <input type="text" name="xing" />
 				<input type="text" name="ming" />
 				<button type="submit">提交</button> -->
-			
+				<input type="hidden" name="ct" value="suanming">
+				<input type="hidden" name="ac" value="sm_form">
+				<input type="hidden" name="cY" value="">
+				<input type="hidden" name="cM" value="">
+				<input type="hidden" name="cD" value="">
+				<input type="hidden" name="cH" value="">
+				<input type="hidden" name="term1" value="">
+				<input type="hidden" name="term2" value="">
+				<input type="hidden" name="start_term" value="">
+				<input type="hidden" name="end_term" value="">
+				<input type="hidden" name="start_term1" value="">
+				<input type="hidden" name="end_term1" value="">
+				<input type="hidden" name="lDate" value="">
 				<div class="user-submit-data-form">
 					<el-form
 						:model="userInputData"

@@ -18,6 +18,7 @@ axios.interceptors.request.use(function(config) {
 	
 	return config
 }, function(err) {
+	loading.close()
 	return Promise.reject(err)
 })
 
