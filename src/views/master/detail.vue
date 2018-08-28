@@ -79,7 +79,7 @@
 			<div class="master-comments-list">
 				<div 
 					class="comment-item"
-					v-for="(comment, index) in masterDetail.commentList"
+					v-for="(comment, index) in masterDetail.comments"
 					:key="index"
 				>
 					<div class="comment-container">
@@ -94,9 +94,9 @@
 							<p>{{comment.context}}</p>
 						</div>
 					</div>
-					<div class="cmment-tool">
+					<!-- <div class="cmment-tool">
 						<el-button type="text">回复</el-button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="master-comment-write">
@@ -153,6 +153,7 @@
 					},
 					other: [],
 					fuwu: [],
+					comments: [],
 
 					name: '罗永丰',
 					tags: ['风水', '八卦', '周易'],

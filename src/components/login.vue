@@ -60,7 +60,7 @@
 				<div v-if="loginType === 'thirdPart'" class="third-part-login-container">
 					<h3>登陆</h3>
 					<div class="third-part-list">
-						<div @click="loginThirdPart('QQ')">
+						<div @click="loginThirdPart('QQ')" id="QQ-login-btn">
 							<img src="../assets/images/qq.png" alt="">
 							<span>QQ登陆</span>
 						</div>
@@ -108,8 +108,18 @@
 		},
 		mounted() {
 			this.loginContainerShow = true
+			this.$nextTick(() => {
+				this.initQQLogin()
+			})
 		},
 		methods: {
+			initQQLogin() {
+				console.log(document.querySelector('#QQ-login-btn'))
+
+				QC.Login({
+					btnId: 'QQ-login-btn'
+				})
+			},
 			login() {
 				// TODO login
 			},
@@ -145,8 +155,10 @@
 					}
 				}, 1000)
 			},
-			loginThirdPart() {
-
+			loginThirdPart(type) {
+				if(type === 'QQ') {
+					document.querySelector('#QQ-login-btn').click()
+				}
 			},
 			phoneCodeLogin() {
 				this.loginType = 'phone'
