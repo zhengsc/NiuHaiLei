@@ -60,9 +60,10 @@
 				<div v-if="loginType === 'thirdPart'" class="third-part-login-container">
 					<h3>登陆</h3>
 					<div class="third-part-list">
-						<div @click="loginThirdPart('QQ')" id="QQ-login-btn">
+						<div @click="loginThirdPart('QQ')" id="">
 							<img src="../assets/images/qq.png" alt="">
 							<span>QQ登陆</span>
+							<span id="QQ-login-btn" style="display:none"></span>
 						</div>
 						<div @click="loginThirdPart('WeChat')">
 							<img src="../assets/images/wechat.png" alt="">
@@ -117,7 +118,15 @@
 				console.log(document.querySelector('#QQ-login-btn'))
 
 				QC.Login({
-					btnId: 'QQ-login-btn'
+					btnId: 'QQ-login-btn',
+					//用户需要确认的scope授权项，可选，默认all
+					scope:"all",
+					//按钮尺寸，可用值[A_XL| A_L| A_M| A_S|  B_M| B_S| C_S]，可选，默认B_S
+				}, function(reqData, opts) {
+					console.log(reqData)
+					console.log(opts)
+				}, function(error) {
+					console.log(error)
 				})
 			},
 			login() {
@@ -157,7 +166,7 @@
 			},
 			loginThirdPart(type) {
 				if(type === 'QQ') {
-					document.querySelector('#QQ-login-btn').click()
+					document.querySelector('#QQ-login-btn a').click()
 				}
 			},
 			phoneCodeLogin() {
@@ -207,7 +216,7 @@
 		justify-content center
 		align-items center
 		color #919191
-		z-index 999999999
+		z-index 99
 
 		.login-container
 			width 500px

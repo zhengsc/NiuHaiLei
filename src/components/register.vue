@@ -203,7 +203,7 @@
 		justify-content center
 		align-items center
 		color #919191
-		z-index 999999999
+		z-index 99
 
 		.register-container
 			width 500px
