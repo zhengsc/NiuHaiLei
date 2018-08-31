@@ -20,6 +20,7 @@ import {
   Loading,
   Tag,
   Message,
+  MessageBox,
   Pagination,
   Row,
   Col,
@@ -58,6 +59,7 @@ Vue.use(axios, {
 
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$message = Message
+Vue.prototype.$prompt = MessageBox.prompt
 
 Vue.config.productionTip = false
 
