@@ -5,8 +5,8 @@
  * In this way , others won't be influenced by this config while git pull.
  *
  */
-var WebIM = {};
-WebIM.config = {
+window.WebIM = {};
+window.WebIM.config = {
     /*
      * XMPP server
      */

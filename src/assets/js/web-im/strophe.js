@@ -35,7 +35,7 @@
             // Browser globals
             root.Base64 = factory();
         }
-    }(this, function () {
+    }(window, function () {
         var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
         var obj = {
@@ -135,7 +135,7 @@
             // Browser globals
             root.SHA1 = factory();
         }
-    }(this, function () {
+    }(window, function () {
 
         /*
          * Calculate the SHA-1 of an array of big-endian words, and a bit length
@@ -338,7 +338,7 @@
             // Browser globals
             root.MD5 = factory();
         }
-    }(this, function (b) {
+    }(window, function (b) {
         /*
          * Add integers, wrapping at 2^32. This uses 16-bit operations internally
          * to work around bugs in some JS interpreters.
@@ -536,7 +536,7 @@
             // Browser globals
             root.stropheUtils = factory();
         }
-    }(this, function () {
+    }(window, function () {
 
         var utils = {
 
@@ -739,7 +739,7 @@
             window.str_hmac_sha1 = o.SHA1.str_hmac_sha1;
             window.str_sha1 = o.SHA1.str_sha1;
         }
-    }(this, function (SHA1, Base64, MD5, utils) {
+    }(window, function (SHA1, Base64, MD5, utils) {
 
         var Strophe;
 
@@ -5696,23 +5696,23 @@
     })(this);
 
     /* jshint ignore:start */
-    if (callback) {
-        if (typeof define === 'function' && define.amd) {
-            //For backwards compatability
-            var n_callback = callback;
-            if (typeof requirejs === 'function') {
-                requirejs(["strophe"], function (o) {
-                    n_callback(o.Strophe, o.$build, o.$msg, o.$iq, o.$pres);
-                });
-            } else {
-                require(["strophe"], function (o) {
-                    n_callback(o.Strophe, o.$build, o.$msg, o.$iq, o.$pres);
-                });
-            }
-        } else {
-            return callback(Strophe, $build, $msg, $iq, $pres);
-        }
-    }
+    // if (callback) {
+    //     if (typeof define === 'function' && define.amd) {
+    //         //For backwards compatability
+    //         var n_callback = callback;
+    //         if (typeof requirejs === 'function') {
+    //             requirejs(["strophe"], function (o) {
+    //                 n_callback(o.Strophe, o.$build, o.$msg, o.$iq, o.$pres);
+    //             });
+    //         } else {
+    //             require(["strophe"], function (o) {
+    //                 n_callback(o.Strophe, o.$build, o.$msg, o.$iq, o.$pres);
+    //             });
+    //         }
+    //     } else {
+    //         return callback(Strophe, $build, $msg, $iq, $pres);
+    //     }
+    // }
 
 
 })(function (Strophe, build, msg, iq, pres) {
