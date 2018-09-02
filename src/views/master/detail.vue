@@ -41,7 +41,7 @@
 			<h3 class="master-plate-title">
 				<span>服务项目</span>
 			</h3>
-			<div class="master-server-list">
+			<div class="master-server-list" v-if="masterDetail.fuwu">
 				<div 
 					class="master-server-item" 
 					v-for="(server, index) in masterDetail.fuwu"
@@ -60,16 +60,22 @@
 						</p>
 					</div>
 					<div class="item-status">
-						<div v-if="server.status === 0">
-							<p>业务繁忙</p>
-							<p>暂停接单</p>
-						</div>
-						<div v-else-if="server.status === 1">
+						<div v-if="masterDetail.info.status == 1">
 							<p>大师在线</p>
 							<p>开始呼叫</p>
 						</div>
+						<div v-else>
+							<p>业务繁忙</p>
+							<p>暂停接单</p>
+						</div>
 					</div>
 				</div>
+			</div>
+			<div
+				v-else
+				class="no-message"
+			>
+				<h3>暂无服务</h3>
 			</div>
 		</div>
 		<div class="master-comments-info">
@@ -79,19 +85,19 @@
 			<div class="master-comments-list">
 				<div 
 					class="comment-item"
-					v-for="(comment, index) in masterDetail.comments"
+					v-for="(comment, index) in masterDetail.Comments"
 					:key="index"
 				>
 					<div class="comment-container">
 						<div class="comment-user-info">
-							<img :src="comment.userPic" alt="">
+							<img src="../../assets/images/master-detail-comment-user.jpg" alt="">
 							<div>
-								<p class="comment-user-line">{{comment.username}}</p>
-								<p class="comment-date-line">{{comment.date}}</p>
+								<p class="comment-user-line">匿名用户</p>
+								<p class="comment-date-line">{{getDateString(comment.addtime)}}</p>
 							</div>
 						</div>
 						<div class="comment-context">
-							<p>{{comment.context}}</p>
+							<p>{{comment.content}}</p>
 						</div>
 					</div>
 					<!-- <div class="cmment-tool">
@@ -103,11 +109,16 @@
 				<div class="comment-write-line">
 					<img src="../../assets/images/master-detail-comment-write-user.jpg" alt="">
 					<p>
-						<el-input class="comment-write-input" placeholder="写下你的评论..." v-model="userInputData.comment">
+						<el-input 
+							class="comment-write-input" 
+							placeholder="写下你的评论..." 
+							v-model="userInputData.comment"
+							:disabled="!getLoginStatus.login"
+						>
 							<template slot="append">{{userInputData.comment.length}}/{{totalComment}}</template>
 						</el-input>
 					</p>
-					<el-button type="primary">发送</el-button>
+					<el-button type="primary" @click="submitComment" :disabled="!getLoginStatus.login">发送</el-button>
 				</div>
 			</div>
 		</div>
@@ -127,6 +138,7 @@
 	import Master from '../../components/master'
 
 	import mockData from '../../assets/js/mock'
+	import Util from '../../assets/js/util'
 
 	export default {
 		data() {
@@ -244,6 +256,11 @@
 				this.getMasterDetail(id)
 			}
 		},
+		computed: {
+			getLoginStatus() {
+				return this.$store.state.userInfo
+			}
+		},
 		created() {
 			let id = this.$route.query.id
 
@@ -255,6 +272,20 @@
 					id,
 				}).then(response => {
 					this.masterDetail = response.data
+				})
+			},
+			getDateString(timestamp) {
+				return Util.getDateString(timestamp)
+			},
+			submitComment() {
+				this.$http.post(this.Api.POST_SUBMIT_COMMENT, {
+					content: this.userInputData.comment,
+					mid: this.getLoginStatus.user.mid,
+					uid: this.masterDetail.info.id,
+				}).then(resp => {
+					console.log(resp)
+				}).catch(error => {
+					console.log(error)
 				})
 			}
 		}
@@ -332,6 +363,9 @@
 
 		.master-server-info
 			margin-top 40px
+
+			> div 
+				border 1px solid #d9d9d9
 			
 			.master-server-list
 				display flex
@@ -340,7 +374,6 @@
 				flex-wrap wrap 
 				padding 20px
 				padding-bottom 0
-				border 1px solid #d9d9d9
 
 				.master-server-item 
 					width 520px

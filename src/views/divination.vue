@@ -7,6 +7,7 @@
 		>
 			<VideoChat />
 		</el-dialog>
+		
 	</div>
 </template>
 
@@ -29,12 +30,15 @@
 			},
 			showVideoChatDialog() {
 				this.toggleVideoChatDialog()
-			}
+			},
+			
 		}
 	}
 </script>
 
-<style lang="stylus" scoped>
-	
+<style lang="stylus">
+	.personal-center-dialog
+		.el-dialog__body
+			padding 30px 0
 </style>
 

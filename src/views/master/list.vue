@@ -51,7 +51,6 @@
 			Master,
 		},
 		created() {
-			console.log(111)
 			this.getMasterList()
 		},
 		methods: {

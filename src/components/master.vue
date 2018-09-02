@@ -12,7 +12,7 @@
 			<div class="master-detail-text-wrap">
 				<div class="master-detail-name">
 					<span>{{master.name}}</span>
-					<span :class="['master-status', master.status === 1 ? 'online' : 'offline']">{{master.status === 1 ? '在线' : '离线'}}</span>
+					<span :class="['master-status', master.status == 1 ? 'online' : 'offline']">{{master.status == 1 ? '在线' : '离线'}}</span>
 				</div>
 				<div class="master-detail-tag">
 					<el-tag 

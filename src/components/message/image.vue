@@ -3,7 +3,7 @@
         <div v-if="message.from === 'master'" :class="['message-item-line', message.from]">
             <img class="head-sculpture" :src="message.body.icon" alt="">
             <div class="message-body">
-                <p class="message-time">{{message.body.date}}</p>
+                <p class="message-time">{{getDateString(message.body.date)}}</p>
                 <div class="message-content">
                     <img :src="message.body.content" alt="">
                 </div>
@@ -11,7 +11,7 @@
         </div>
         <div v-else :class="['message-item-line', message.from]">
             <div class="message-body">
-                <p class="message-time">{{message.body.date}}</p>
+                <p class="message-time">{{getDateString(message.body.date)}}</p>
                 <div class="message-content">
                     <img :src="message.body.content" alt="">
                 </div>
@@ -32,6 +32,20 @@
         data() {
             return {
 
+            }
+        },
+        methods: {
+            getDateString(timestamp) {
+                let D = new Date()
+
+                let y = D.getFullYear(),
+                    m = D.getMonth() + 1,
+                    d = D.getDate(),
+                    h = D.getHours(),
+                    min = D.getMinutes(),
+                    s = D.getSeconds()
+
+                return `${y}-${m > 9 ? m : '0' + m}-${d > 9 ? d : '0' + d} ${h > 9 ? h : '0' + h}:${min > 9 ? min : '0' + min}:${s > 9 ? s : '0' + s}`
             }
         }
     }

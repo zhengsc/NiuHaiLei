@@ -13,10 +13,16 @@
 							<img src="../assets/images/header-tel-icon.png" alt="" />
 							<span>TEL: 400-6588-128</span>
 						</div>
-						<div class="header-tool-user">
+						<div class="header-tool-user" v-if="!getUserLoginStatus.login">
 							<a href="javascript:;" @click="openLoginWrapHandler">登录</a>
 							<span>|</span>
 							<a href="javascript:;" @click="openRegisterWrapHandler">注册</a>
+						</div>
+						<div class="header-tool-user" v-else>
+							<span>欢迎您，</span>
+							<a href="javascript:;" @click="showPersonalCetnerDialog">{{getUserLoginStatus.user.name}}</a>
+							<span>|</span>
+							<a href="javascript:;" @click="logout">退出</a>
 						</div>
 					</div>
 				</div>
@@ -36,17 +42,36 @@
 				
 			</div>
 		</div>
+		<!-- 个人中心 -->
+		<el-dialog
+			:visible.sync="personalCenterDialogVisible"
+			width="1100px"
+			custom-class="personal-center-dialog"
+			top="5vh"
+		>
+			<PersonalCenter />
+		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import Menu from '../assets/js/menu'
+	import PersonalCenter from './personal-center.vue'
 	
 	export default {
 		data() {
 			return {
-				menuList: Menu
+				menuList: Menu,
+				personalCenterDialogVisible: false,
 			}
+		},
+		computed: {
+			getUserLoginStatus() {
+				return this.$store.state.userInfo
+			}
+		},
+		components: {
+			PersonalCenter,
 		},
 		methods: {
 			openLoginWrapHandler() {
@@ -54,12 +79,29 @@
 			},
 			openRegisterWrapHandler() {
 				this.$store.commit('setRegisterWrapState', true)
+			},
+			togglePersonalCetnerDialog() {
+				this.personalCenterDialogVisible = !this.personalCenterDialogVisible
+			},
+			showPersonalCetnerDialog() {
+				this.togglePersonalCetnerDialog()
+			},
+			// 退出
+			logout() {
+				this.$store.commit('setUserLoginStatus', {
+					login: false,
+					user: null
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="stylus" scoped>
+	.personal-center-dialog
+		.el-dialog__body
+			padding 30px 0
+		
 	.header-wrap 
 		width: 100%
 		height: auto

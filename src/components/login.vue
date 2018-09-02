@@ -20,7 +20,7 @@
 							<el-form-item
 								label=""
 							>
-								<el-input v-model="loginObj.phone" placeholder="手机号"></el-input>
+								<el-input v-model="loginObj.tel" placeholder="手机号"></el-input>
 							</el-form-item>
 							<el-form-item
 								label=""
@@ -92,8 +92,8 @@
 		data() {
 			return {
 				loginObj: {
-					phone: '',
-					code: '',
+					tel: '18310469506',
+					code: '123456',
 					payCode: '',
 				},
 				loginContainerShow: false,
@@ -130,7 +130,24 @@
 				})
 			},
 			login() {
-				// TODO login
+				this.$store.commit('setUserLoginStatus', {
+					login: true,
+					user: {
+						name: 'zhengsc',
+						tel: '18310469506'
+					}
+				})
+				this.$store.commit('setLoginWrapState', false)
+				// this.$http.post(this.Api.POST_LOGIN, this.loginObj).then(resp => {
+				// 	console.log(resp)
+				// 	// login success
+				// 	this.$store.commit('setUserLoginStatus', {
+				// 		login: true,
+				// 		user: resp.data
+				// 	})
+				// }).catch(error => {
+				// 	console.log(error)
+				// })
 			},
 			sendCode() {
 				this.countDownHandler()
@@ -139,7 +156,7 @@
 				this.$store.commit('setLoginWrapState', false)
 			},
 			isPhone() {
-				return /(13|15|17|18|14|16)[0-9]{9}/.test(this.loginObj.phone)
+				return /(13|15|17|18|14|16)[0-9]{9}/.test(this.loginObj.tel)
 			},
 			sendCodeHandler() {
 				if(!this.isPhone()) {
@@ -347,6 +364,7 @@
 				justify-content space-between
 				align-items center
 				margin-top 20px
+				font-size 14px
 
 				a 
 					color #919191

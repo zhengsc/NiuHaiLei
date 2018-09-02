@@ -26,11 +26,12 @@ axios.interceptors.response.use(function(response) {
 
 	let resp = response.data
 
-	if(resp.status !== 200 && resp.status !== 0) {
+	loading.close()
+
+	if(resp.status !== 200) {
+		Message.error(resp.info || '请求失败')
 		return Promise.reject(response)
 	}
-
-	loading.close()
 
 	return resp
 }, function(err) {
