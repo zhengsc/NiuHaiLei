@@ -29,13 +29,23 @@
 			</div>
 			<div class="header-menu-wrap">
 				<div class="container">
-					<router-link
+					<span
 						v-for="(menu, index) in menuList"
 						:key="index"
-						:to="menu.path"
-						active-class="active"
-						:exact="menu.path === '/' ? true : false"
-					>{{menu.text}}</router-link>
+					>
+						<router-link
+							v-if="!menu.thirdPath"
+							:to="menu.path"
+							:exact="menu.path === '/' ? true : false"
+							active-class="active"
+						>{{menu.text}}</router-link>
+						<a 
+							v-else
+							:href="menu.thirdPath"
+							target="_blank"
+						>{{menu.text}}</a>
+					</span>
+					
 				</div>
 			</div>
 			<div class="header-banner-wrap">
@@ -151,7 +161,7 @@
 					align-items: center
 					height 100%
 
-					a
+					span
 						display flex
 						height 100%
 						align-items center
@@ -168,4 +178,12 @@
 
 						&:not(:last-child) 
 							border-right 1px solid #5d3c3a
+
+						a 
+							color #ffffff
+							width 100%
+							height 100%
+							display flex
+							align-items center
+							justify-content center
 </style>

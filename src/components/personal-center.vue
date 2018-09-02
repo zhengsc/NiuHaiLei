@@ -4,12 +4,12 @@
 			<div class="info-left">
 				<img src="../assets/images/personal-center-user-img.png" alt="">
 				<div class="info-container">
-					<h3>NiuHaiLei</h3>
+					<h3>{{userInfo.name}}</h3>
 					<p>
-						<span>男</span>
-						<span>1992-05-10</span>
-						<span>子时</span>
-						<span>18310469506</span>
+						<span>{{userInfo.sex}}</span>
+						<span>{{getDateObj(userInfo.birthday).dateStr}}</span>
+						<span>{{getDateObj(userInfo.birthday).timeNotc}}</span>
+						<span>{{userInfo.tel}}</span>
 					</p>
 				</div>
 			</div>
@@ -17,7 +17,7 @@
 				<p>
 					<img src="../assets/images/personal-center-amount-icon.png" alt="">
 					<span>账户余额：</span>
-					<span class="amount">200.00</span>
+					<span class="amount">{{userInfo.money}}</span>
 					<span class="unit">元</span>
 				</p>
 			</div>
@@ -32,7 +32,7 @@
 					@click="checkChargeItem(index)"
 				>
 					<img 
-						v-if="item.recommend" 
+						v-if="item.iscommend == 1" 
 						src="../assets/images/personal-center-charge-recommend.png" 
 						alt=""
 						class="charge-item-recommend"
@@ -55,29 +55,39 @@
 </template>
 
 <script>
+	import Util from '../assets/js/util'
+
 	export default {
-		
 		data() {
 			return {
 				chargeList: [
 					{
 						money: 400,
-						recommend: true
+						iscommend: 1
 					},
 					{
 						money: 300,
-						recommend: false
+						iscommend: 0
 					},
 					{
 						money: 200,
-						recommend: false
+						iscommend: 0
 					},
 					{
 						money: 100,
-						recommend: false
+						iscommend: 0
+					},
+					{
+						money: 100,
+						iscommend: 0
 					},
 				],
 				chargeCheckedItem: 0,
+			}
+		},
+		computed: {
+			userInfo() {
+				return this.$store.state.userInfo.user
 			}
 		},
 		watch: {
@@ -87,9 +97,33 @@
 				this.chargeCheckedItem = index === -1 ? 0 : index
 			}
 		},
+		created() {
+			this.getChargeList()
+		},
 		methods: {
 			checkChargeItem(index) {
 				this.chargeCheckedItem = index
+			},
+			getChargeList() {
+				this.$http.post(this.Api.POST_CHARGE_LIST).then(resp => {
+					this.chargeList = resp.data
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			getDateObj(timestamp) {
+				let dateStr = Util.getDateString(timestamp).slice(0, 10)
+				let d = new Date(timestamp * 1000)
+				let hour = d.getHours(d)
+				
+				hour = hour > 9 ? hour + ':00' : '0' + hour + ':00'
+
+				let timeNotc = Util.timeNotc.filter(h => h.text.slice(0, 5) === hour)[0]
+
+				return {
+					dateStr,
+					timeNotc: timeNotc.text.slice(6, 8)
+				}
 			}
 		}
 	}
@@ -183,6 +217,7 @@
 				display flex
 				justify-content flex-start
 				align-items center
+				flex-wrap wrap
 
 				.charge-item 
 					position relative
@@ -197,6 +232,8 @@
 					padding 0 30px
 					color #fd521f
 					cursor pointer
+					margin-right 20px
+					margin-bottom 20px
 
 					&.checked 
 						border-color #fd521f
@@ -204,8 +241,8 @@
 						.charge-item-checked 
 							display block
 
-					&:not(:last-child)
-						margin-right 20px
+					&:nth-child(4n)
+						margin-right 0
 
 					.charge-item-recommend,
 					.charge-item-checked

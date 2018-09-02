@@ -8,6 +8,7 @@ const MENU = [
 		path: '/divination',
 		name: 'divination',
 		text: '免费算命大全',
+		thirdPath: 'http://test.zhengsc.com'
 	},
 	{
 		path: '/master',

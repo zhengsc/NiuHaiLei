@@ -19,6 +19,7 @@
 		data() {
 			return {
 				videoChatDialogVisible: false,
+				i: 0,
 			}
 		},
 		components: {

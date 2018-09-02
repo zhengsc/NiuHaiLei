@@ -134,7 +134,10 @@
 					login: true,
 					user: {
 						name: 'zhengsc',
-						tel: '18310469506'
+						tel: '18310469506',
+						birthday: '1535799405',
+						sex: '男',
+						money: 200
 					}
 				})
 				this.$store.commit('setLoginWrapState', false)

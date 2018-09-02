@@ -384,6 +384,11 @@
 					border-top-right-radius 4px
 					border-bottom-right-radius 4px
 					margin-bottom 20px
+					cursor pointer
+					transition transform .5s ease 
+
+					&:hover 
+						transform translateY(-5px)
 
 					&:nth-child(2n) {
 						margin-left 18px

@@ -8,6 +8,7 @@ const Api = {
 	POST_ABOUT_USE_INFO: '/home/index/about', // 关于我们
 	POST_DIVINATION_DATA: 'http://test.zhengsc.com/index.php', // 精准测算
 	POST_SUBMIT_COMMENT: '/home/member/comments', // 提交评论
+	POST_CHARGE_LIST: '/home/index/moneylist', // 充值列表
 }
 
 
