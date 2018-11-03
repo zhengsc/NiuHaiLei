@@ -1,5 +1,5 @@
 export default {
-    path: 'demo/images/faces/', 
+    path: './images/faces/', 
     map: {
         '[):]': 'ee_1.png',
         '[:D]': 'ee_2.png',

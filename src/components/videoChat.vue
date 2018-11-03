@@ -111,11 +111,11 @@
 				messageBody: '',
 				currentLoginUser: '',
                 chatToolList: [
-                    {
-						text: '表情',
-						type: 'emoji',
-                        icon: require('../assets/images/video-chat-emoji.png'),
-                    },
+                    // {
+					// 	text: '表情',
+					// 	type: 'emoji',
+                    //     icon: require('../assets/images/video-chat-emoji.png'),
+                    // },
                     {
 						text: '图片',
 						type: 'image',
