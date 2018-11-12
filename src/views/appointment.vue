@@ -2,6 +2,20 @@
 	<div class="appointment-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
 		<div class="appointment-user-info-wrap">
+			<form id="payForm" v-show="false" method="post" target="_blank" action="http://data.51dashizaixian.com/home/pay/pay">
+				<input type="hidden" name="WIDsubject" value="预约上门服务">
+				<input type="hidden" name="name" v-model="userSubmitInfo.username">
+				<input type="hidden" name="sex" v-model="userSubmitInfo.sex">
+				<input type="hidden" name="type" v-model="userSubmitInfo.type">
+				<input type="hidden" name="year" v-model="userSubmitInfo.year">
+				<input type="hidden" name="month" v-model="userSubmitInfo.month">
+				<input type="hidden" name="day" v-model="userSubmitInfo.day">
+				<input type="hidden" name="hour" v-model="userSubmitInfo.hour">
+				<input type="hidden" name="tel" v-model="userSubmitInfo.tel">
+				<input type="hidden" name="paytype" value="2">
+				<input type="hidden" name="WIDtotal_amount" value="0.02">
+				<button id="submitPayForm" type="submit"></button>
+			</form>
 			<el-form
 				:model="userSubmitInfo"
 				:rules="userSubmitRule"
@@ -107,10 +121,24 @@
 				</el-row>
 				<el-row class="form-row" type="flex" justify="start" align="middle">
 					<el-col :span="2">
+						<span>手机号码：</span>
+					</el-col>
+					<el-col :span="22" class="form-row-input-area">
+						<el-form-item class="form-item" prop="mobile">
+							<el-input
+								v-model="userSubmitInfo.tel"
+								placeholder="请输入手机号码"
+								class="w300"
+							></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row class="form-row" type="flex" justify="start" align="middle">
+					<el-col :span="2">
 						<span>预约金额：</span>
 					</el-col>
 					<el-col :span="22" class="form-row-input-area tool">
-						<span class="amount">120.00</span>
+						<span class="amount">0.02</span>
 						<span class="price-unit">￥</span>
 						<el-button type="primary" class="submit-button" @click="validateAppointInfo">去支付</el-button>
 					</el-col>
@@ -142,6 +170,7 @@
 					month: '',
 					date: '',
 					hour: '',
+					tel: '',
 				},
 				userSubmitRule: {
 					username: [ { required: true, message: '请输入名称' } ],
@@ -151,6 +180,15 @@
 					date: [ { required: true, message: '请选择出生日期' } ],
 					hour: [ { required: true, message: '请选择出生时辰' } ],
 					sex: [ { required: true, message: '请选择性别' } ],
+					tel: [ {
+						required: true,
+						message: '请输入手机号码'
+					}, {
+						validator (rule, val, cb) {
+							if (!/(13|14|15|16|17|18|19)\d{9}/.test(val)) return cb(new Error('请输入正确的手机号码'))
+							return cb()
+						}
+					} ],
 				},
 				monthes: [
 					{ id: 1, text: '一月' },
@@ -181,7 +219,25 @@
 		components: {
 			Breadcrumb,
 		},
+		mounted() {
+			let orderId = this.$route.query.orderId
+
+			if (orderId) {
+				this.validatePayResule(orderId)
+			}
+		},
 		methods: {
+			validatePayResule(orderId) {
+				this.$http.get(this.Api.validateOrderId, {
+					orderId,
+				}).then(resp => {
+					this.$alert('恭喜你，预约成功', '提示', {
+						type: 'success'
+					}).then(() => {
+						// TODO
+					})
+				})
+			},
 			setDateList() {
 				if(this.userSubmitInfo.year && this.userSubmitInfo.month) {
 					let date = new Date(this.userSubmitInfo.year, this.userSubmitInfo.month, 0)
@@ -196,7 +252,9 @@
 			validateAppointInfo() {
 				this.$refs.userSubmitForm.validate(valid => {
 					if(valid) {
-						// TODO 支付
+						console.log('校验通过')
+						document.querySelector('#submitPayForm').click()
+						// document.querySelector('#payForm').submit()
 					}
 				})
 			}

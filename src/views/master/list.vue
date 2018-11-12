@@ -59,11 +59,13 @@
 				// TODO GET DATA
 			},
 			getMasterList() {
-				this.$http.post(this.Api.POST_MASTER_LIST, {
+				this.$http.post(this.Api.POST_MASTER_LIST, this.$qs.stringify({
 					page: this.pagination.page,
-				}).then(response => {
+				})).then(response => {
 					this.masterList = response.data
 					this.pagination.pageCount = response.pagetotal
+					console.log(response)
+					console.log('3333')
 				}).catch(error => {})
 			}
 		}

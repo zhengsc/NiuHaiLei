@@ -186,4 +186,8 @@
 							display flex
 							align-items center
 							justify-content center
+
+							&.active,
+							&:hover
+								background-color #533231
 </style>

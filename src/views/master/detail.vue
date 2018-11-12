@@ -1,6 +1,12 @@
 <template>
 	<div class="master-detail-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
+		<el-dialog
+			:visible.sync="videoChatDialogVisible"
+			width="700px"
+		>
+			<VideoChat />
+		</el-dialog>
 		<div class="master-personal-info">
 			<div class="master-personal-img">
 				<el-carousel 
@@ -69,6 +75,9 @@
 							<p>暂停接单</p>
 						</div>
 					</div>
+					<div>
+                      <el-button @click="showVideoChatDialog">视频</el-button>
+					</div>
 				</div>
 			</div>
 			<div
@@ -136,6 +145,7 @@
 <script>
 	import Breadcrumb from '../../components/breadcrumb'
 	import Master from '../../components/master'
+	import VideoChat from '../../components/videoChat.vue'
 
 	import mockData from '../../assets/js/mock'
 	import Util from '../../assets/js/util'
@@ -154,6 +164,7 @@
 					comment: '',
 				},
 				totalComment: 200,
+				videoChatDialogVisible: false,
 				masterDetail: {
 					info: {
 						content: '',
@@ -240,6 +251,7 @@
 		components: {
 			Breadcrumb,
 			Master,
+			VideoChat,
 		},
 		watch: {
 			'userInputData.comment': {
@@ -263,14 +275,36 @@
 		},
 		created() {
 			let id = this.$route.query.id
+			let orderId = this.$route.query.orderId
+
+			if (orderId) {
+				this.validatePayResule(orderId)
+			}
 
 			this.getMasterDetail(id)
 		},
 		methods: {
+			validatePayResule(orderId) {
+				this.$http.get(this.Api.validateOrderId, {
+					orderId,
+				}).then(resp => {
+					this.$alert('恭喜你，预约成功', '提示', {
+						type: 'success'
+					}).then(() => {
+						// TODO
+					})
+				})
+			},
+			toggleVideoChatDialog() {
+				this.videoChatDialogVisible = !this.videoChatDialogVisible
+			},
+			showVideoChatDialog() {
+				this.toggleVideoChatDialog()
+			},
 			getMasterDetail(id) {
-				this.$http.post(this.Api.POST_MASTER_DETAIL, {
-					id,
-				}).then(response => {
+				this.$http.post(this.Api.POST_MASTER_DETAIL, 
+					this.$qs.stringify({id:this.$route.query.id})
+				).then(response => {
 					this.masterDetail = response.data
 				})
 			},

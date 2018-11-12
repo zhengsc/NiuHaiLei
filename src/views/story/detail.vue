@@ -107,9 +107,9 @@
 		},
 		methods: {
 			getStoryDetail(id) {
-				this.$http.post(this.Api.POST_STORY_DETAIL, {
-					id,
-				}).then(response => {
+				this.$http.post(this.Api.POST_STORY_DETAIL, this.$qs.stringify({
+					id: this.$route.query.id
+				})).then(response => {
 					this.story = response.data.info
 					this.after = response.data.after
 					this.front = response.data.front

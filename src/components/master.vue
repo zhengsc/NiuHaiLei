@@ -7,7 +7,7 @@
 			@click="go2MasterDetail(master.id)"
 		>
 			<div class="master-detail-img">
-				<img :src="master.logo" alt="">
+				<img :src="baseImgeUrl + master.logo" alt="">
 			</div>
 			<div class="master-detail-text-wrap">
 				<div class="master-detail-name">
@@ -40,7 +40,7 @@
 		},
 		data() {
 			return {
-				
+				baseImgeUrl: 'http://data.51dashizaixian.com'
 			}
 		},
 		methods: {

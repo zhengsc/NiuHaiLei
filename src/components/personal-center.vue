@@ -100,13 +100,33 @@
 		created() {
 			this.getChargeList()
 		},
+		mounted() {
+			let orderId = this.$route.query.orderId
+
+			if (orderId) {
+				this.validatePayResule(orderId)
+			}
+		},
 		methods: {
+			validatePayResule(orderId) {
+				this.$http.get(this.Api.validateOrderId, {
+					orderId,
+				}).then(resp => {
+					this.$alert('恭喜你，预约成功', '提示', {
+						type: 'success'
+					}).then(() => {
+						// TODO
+					})
+				})
+			},
 			checkChargeItem(index) {
 				this.chargeCheckedItem = index
 			},
 			getChargeList() {
 				this.$http.post(this.Api.POST_CHARGE_LIST).then(resp => {
 					this.chargeList = resp.data
+					console.log(this.chargeList)
+					console.log('22222');
 				}).catch(err => {
 					console.log(err)
 				})

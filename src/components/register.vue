@@ -28,7 +28,7 @@
 								<el-form-item
 									label="手机号:"
 								>
-									<el-input v-model="registerObj.phone" placeholder="请输入手机号"></el-input>
+									<el-input v-model="registerObj.tel" placeholder="请输入手机号"></el-input>
 								</el-form-item>
 								<el-form-item
 									label="验证码:"
@@ -45,7 +45,7 @@
 								<el-form-item
 									label="支付码:"
 								>
-									<el-input v-model="registerObj.payCode" placeholder="支付码（选填）"></el-input>
+									<el-input v-model="registerObj.sn" placeholder="支付码（选填）"></el-input>
 								</el-form-item>
 								<div class="register-form-tool-wrap">
 									<el-button 
@@ -79,6 +79,9 @@
 						</div>
 						<div class="go-login-container">
 							<p>
+							    <a href="javascript:;" @click="phoneCodeAdd">短信注册</a>
+						    </p>
+							<p>
 								<span>已有账号？</span>
 								<a href="javascript:;" @click="go2Login">去登陆</a>
 							</p>
@@ -97,9 +100,11 @@
         data() {
             return {
                 registerObj: {
-					phone: '',
+					tel: '',
 					code: '',
-					payCode: '',
+					password:'12345',
+					name:'ljx',
+					sn: '',
 				},
 				registerContainerShow: false,
 				countDown: COUNT_DOWN_SECOND,
@@ -119,6 +124,30 @@
 		methods: {
 			register() {
 				// TODO register
+				if(this.registerObj.code === '') {
+					this.$message.error('请输入验证码')
+
+					return 
+				}
+                this.$http.post(this.Api.POST_ADD, this.$qs.stringify(this.registerObj)).then(resp => {
+					console.log(resp)
+					console.log('----11111')
+					// 用户信息保存进store
+				 	// this.$store.commit('setUserLoginStatus', {
+					// 	login: true,
+					// 	user: {
+					// 		name: 'zhengsc',
+					// 		tel: '15010042978',
+					// 		birthday: '1535799405',
+					// 		sex: '男',
+					// 		money: 200
+					// 	}
+					// })
+					// 关闭登陆dialog
+					this.$store.commit('setLoginWrapState', false)
+				}).catch(error => {
+				 	console.log(error)
+				 })
 			},
 			sendCode() {
 				this.countDownHandler()
@@ -127,7 +156,7 @@
 				this.$store.commit('setRegisterWrapState', false)
 			},
 			isPhone() {
-				return /(13|15|17|18|14|16)[0-9]{9}/.test(this.registerObj.phone)
+				return /(13|15|17|18|14|16)[0-9]{9}/.test(this.registerObj.tel)
 			},
 			sendCodeHandler() {
 				if(!this.isPhone()) {
@@ -135,7 +164,20 @@
 
 					return 
 				}
-
+                this.$http.post(this.Api.POST_SEND, this.$qs.stringify({
+					tel: this.registerObj.tel
+				})).then(resp => {
+					 console.log(this.registerObj);
+					 console.log('___222');
+					 console.log(resp);
+				 	// login success
+				 	this.$store.commit('setUserLoginStatus', {
+				 		login: true,
+				 		user: resp.data
+				 	})
+				}).catch(error => {
+				 	console.log(error)
+				 })
 				this.sendCode()
 			},
 			countDownHandler() {
@@ -159,6 +201,11 @@
 				}
 
 				this.registerType = 'bindPhone'
+			},
+			phoneCodeAdd() {
+				this.registerType  = 'bindPhone'
+				// this.$store.commit('setLoginWrapState', false)
+				// this.$store.commit('setRegisterWrapState', true)
 			},
 			go2Login() {
 				this.$store.commit('setRegisterWrapState', false)

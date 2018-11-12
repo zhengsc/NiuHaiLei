@@ -44,10 +44,10 @@
 			return {
 				breadcrumb: {
 					title: {
-						zh: '关于我们',
-						en: 'ABOUT US'
+						zh: '实地考察',
+						en: 'INVESTIGATION'
 					},
-					address: ['关于我们']
+					address: ['实地考察']
 				},
 				investList: [
 					{

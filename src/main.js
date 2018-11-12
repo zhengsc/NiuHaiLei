@@ -31,6 +31,8 @@ import {
 // import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/element-ui.scss'
 
+const httpProtocol = process.env.NODE_ENV === 'production' ? location.protocol : 'https:'
+
 Vue.prototype.$qs = Qs
 Vue.prototype.Api = Api
 
@@ -54,7 +56,7 @@ Vue.use(CarouselItem)
 Vue.use(Dialog)
 
 Vue.use(axios, {
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://operation.zhengsc.com' : 'http://operation.zhengsc.com'
+  baseURL: httpProtocol + '//www.51dashizaixian.com'
 })
 
 Vue.prototype.$loading = Loading.service
