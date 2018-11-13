@@ -227,15 +227,19 @@
 			}
 		},
 		methods: {
-			validatePayResule(orderId) {
-				this.$http.get(this.Api.validateOrderId, {
-					orderId,
-				}).then(resp => {
-					this.$alert('恭喜你，预约成功', '提示', {
-						type: 'success'
-					}).then(() => {
-						// TODO
-					})
+			validatePayResule(ordersn) {
+				this.$http.post(this.Api.POST_VALIDATE_ORDER, this.$qs.stringify({
+					ordersn,
+				})).then(resp => {
+					let { data: { status, kind } } = resp
+
+					if (status === 1 && kind === 2) {
+						this.$alert('恭喜你，预约成功', '提示', {
+							type: 'success'
+						}).then(() => {
+							this.$route.replace('/appointment')
+						})
+					}
 				})
 			},
 			setDateList() {

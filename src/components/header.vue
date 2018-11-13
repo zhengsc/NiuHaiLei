@@ -83,7 +83,29 @@
 		components: {
 			PersonalCenter,
 		},
+		created() {
+			let orderId = this.$route.query.orderId
+
+			if (orderId) {
+				this.validatePayResule(orderId)
+			}
+		},
 		methods: {
+			validatePayResule(ordersn) {
+				this.$http.get(this.Api.validateOrderId, {
+					ordersn,
+				}).then(resp => {
+					let { data: { status, kind } } = resp
+					
+					if (this.getUserLoginStatus.login && status === 1 && kind === 3) {
+						this.$alert('恭喜你，充值成功', '提示', {
+							type: 'success'
+						}).then(() => {
+							this.togglePersonalCetnerDialog()
+						})
+					}
+				})
+			},
 			openLoginWrapHandler() {
 				this.$store.commit('setLoginWrapState', true)
 			},

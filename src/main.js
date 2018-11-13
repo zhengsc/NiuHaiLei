@@ -65,6 +65,23 @@ Vue.prototype.$prompt = MessageBox.prompt
 
 Vue.config.productionTip = false
 
+let LOGIN_SESSION_KEY = localStorage.getItem('LOGIN_SESSION_KEY')
+
+if(LOGIN_SESSION_KEY) {
+  axios.post(Api.POST_VALIDATE_LOGIN_STATUS, Qs.stringify({
+    key: LOGIN_SESSION_KEY
+  })).then(resp => {
+    let { data: { status } } = resp
+
+    if(status === 1) {
+      // 保存用户信息
+      // store.commit()
+    }
+  }).catch(() => {
+    localStorage.removeItem('LOGIN_SESSION_KEY')
+  })
+}
+
 new Vue({
   router,
   store,

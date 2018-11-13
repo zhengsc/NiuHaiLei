@@ -11,6 +11,9 @@ const Api = {
 	POST_DIVINATION_DATA: 'http://dt.51dashizaixian.com/index.php', // 精准测算
 	POST_SUBMIT_COMMENT: '/home/member/comments', // 提交评论
 	POST_CHARGE_LIST: '/home/index/moneylist', // 充值列表
+	POST_VALIDATE_ORDER: '/home/order/checkorder', // 查询订单状态
+	POST_APPOINTMENT_PRICE: '/home/index/seramount', // 查询预约上门服务价格
+	POST_VALIDATE_LOGIN_STATUS: '', // 验证登录状态
 }
 
 

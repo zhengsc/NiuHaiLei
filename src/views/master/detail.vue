@@ -285,14 +285,14 @@
 		},
 		methods: {
 			validatePayResule(orderId) {
-				this.$http.get(this.Api.validateOrderId, {
-					orderId,
-				}).then(resp => {
-					this.$alert('恭喜你，预约成功', '提示', {
-						type: 'success'
-					}).then(() => {
-						// TODO
-					})
+				this.$http.post(this.Api.POST_VALIDATE_ORDER, this.$qs.stringify({
+					ordersn,
+				})).then(resp => {
+					let { data: { status, kind } } = resp
+
+					if (status === 1 && kind === 1) {
+						// TODO 连接大师
+					}
 				})
 			},
 			toggleVideoChatDialog() {
@@ -312,11 +312,11 @@
 				return Util.getDateString(timestamp)
 			},
 			submitComment() {
-				this.$http.post(this.Api.POST_SUBMIT_COMMENT, {
+				this.$http.post(this.Api.POST_SUBMIT_COMMENT, this.$qs.stringify({
 					content: this.userInputData.comment,
 					mid: this.getLoginStatus.user.mid,
 					uid: this.masterDetail.info.id,
-				}).then(resp => {
+				})).then(resp => {
 					console.log(resp)
 				}).catch(error => {
 					console.log(error)
