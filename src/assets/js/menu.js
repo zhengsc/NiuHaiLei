@@ -24,7 +24,6 @@ const MENU = [
 		path: '/appointment',
 		name: 'Appointment',
 		text: '预约上门',
-		//thirdPath: 'http://data.51dashizaixian.com/home/pay'
 	},
 	{
 		path: '/investigate',

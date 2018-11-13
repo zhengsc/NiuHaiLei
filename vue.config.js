@@ -7,15 +7,15 @@ module.exports = {
 	devServer: {
 		proxy: {
 			'/home': {
-				target: 'http://data.51dashizaixian.com',
+				target: 'https://www.51dashizaixian.com',
 				changeOrigin: true
 			},
 			'/user': {
-				target: 'http://data.51dashizaixian.com',
+				target: 'https://www.51dashizaixian.com',
 				changeOrigin: true
 			},
 			'/Uploud': {
-				target: 'http://data.51dashizaixian.com',
+				target: 'https://www.51dashizaixian.com',
 				changeOrigin: true
 			}
 		}

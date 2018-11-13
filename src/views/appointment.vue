@@ -2,7 +2,7 @@
 	<div class="appointment-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
 		<div class="appointment-user-info-wrap">
-			<form id="payForm" v-show="false" method="post" target="_blank" action="http://data.51dashizaixian.com/home/pay/pay">
+			<form id="payForm" v-show="false" method="post" target="_blank" action="https://www.51dashizaixian.com/home/pay/pay">
 				<input type="hidden" name="WIDsubject" value="预约上门服务">
 				<input type="hidden" name="name" v-model="userSubmitInfo.username">
 				<input type="hidden" name="sex" v-model="userSubmitInfo.sex">

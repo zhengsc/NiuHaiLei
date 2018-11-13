@@ -20,7 +20,7 @@
 		},
 		data() {
 			return {
-               baseImgeUrl: 'http://data.51dashizaixian.com'
+               baseImgeUrl: 'https://www.51dashizaixian.com'
 			}
 		},
 		methods: {
