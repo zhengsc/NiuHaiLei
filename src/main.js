@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Qs from 'qs'
-import Api from './api.js'
+import { baseUrl, Api } from './api.js'
 import axios from './axios'
 import {
   Input,
@@ -31,9 +31,10 @@ import {
 // import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/element-ui.scss'
 
-const httpProtocol = process.env.NODE_ENV === 'production' ? location.protocol : 'https:'
+const httpProtocol = baseUrl
 
 Vue.prototype.$qs = Qs
+Vue.prototype.$baseUrl = baseUrl
 Vue.prototype.Api = Api
 
 Vue.use(Input)
@@ -65,20 +66,20 @@ Vue.prototype.$prompt = MessageBox.prompt
 
 Vue.config.productionTip = false
 
-let LOGIN_SESSION_KEY = localStorage.getItem('LOGIN_SESSION_KEY')
+let LOGIN_SESSION_KEY = localStorage.getItem('TOKEN')
 
 if(LOGIN_SESSION_KEY) {
   axios.post(Api.POST_VALIDATE_LOGIN_STATUS, Qs.stringify({
-    key: LOGIN_SESSION_KEY
+    token: LOGIN_SESSION_KEY
   })).then(resp => {
     let { data: { status } } = resp
 
-    if(status === 1) {
+    if(status === 0) {
       // 保存用户信息
       // store.commit()
     }
   }).catch(() => {
-    localStorage.removeItem('LOGIN_SESSION_KEY')
+    localStorage.removeItem('TOKEN')
   })
 }
 

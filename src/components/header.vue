@@ -124,6 +124,8 @@
 					login: false,
 					user: null
 				})
+
+				localStorage.removeItem('TOKEN')
 			}
 		}
 	}

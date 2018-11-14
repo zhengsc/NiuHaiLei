@@ -14,6 +14,12 @@ axios.interceptors.request.use(function(config) {
 		background: 'rgba(0, 0, 0, 0.7)',
 	})
 
+	let token = localStorage.getItem('TOKEN')
+
+	if(token) {
+		config.headers.token = token
+	}
+
 	console.log(config)
 	
 	return config

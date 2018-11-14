@@ -1,3 +1,4 @@
+const baseUrl = process.env.NODE_ENV === 'production' ? location.protocol : 'https:'
 const Api = {
 	POST_LOGIN: '/home/login/index', // 登录
 	POST_SEND: '/home/login/send',//短信登陆
@@ -13,8 +14,9 @@ const Api = {
 	POST_CHARGE_LIST: '/home/index/moneylist', // 充值列表
 	POST_VALIDATE_ORDER: '/home/order/checkorder', // 查询订单状态
 	POST_APPOINTMENT_PRICE: '/home/index/seramount', // 查询预约上门服务价格
-	POST_VALIDATE_LOGIN_STATUS: '', // 验证登录状态
+	POST_VALIDATE_LOGIN_STATUS: '/home/login/checkmember', // 验证登录状态
+	POST_PAY_PATH: '/home/pay/pay', // 支付
 }
 
 
-export default Api
+export { baseUrl, Api }

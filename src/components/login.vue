@@ -133,6 +133,7 @@
 				this.$http.post(this.Api.POST_LOGIN, this.$qs.stringify(this.loginObj)).then(resp => {
 					console.log(resp)
 					this.$message.success('登录成功')
+					localStorage.setItem('TOKEN', resp.data.token)
 					// 用户信息保存进store
 				 	this.$store.commit('setUserLoginStatus', {
 						login: true,
