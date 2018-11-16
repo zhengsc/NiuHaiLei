@@ -31,8 +31,6 @@ import {
 // import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/element-ui.scss'
 
-const httpProtocol = baseUrl
-
 Vue.prototype.$qs = Qs
 Vue.prototype.$baseUrl = baseUrl
 Vue.prototype.Api = Api
@@ -57,7 +55,7 @@ Vue.use(CarouselItem)
 Vue.use(Dialog)
 
 Vue.use(axios, {
-  baseURL: httpProtocol + '//www.51dashizaixian.com'
+  baseURL: baseUrl
 })
 
 Vue.prototype.$loading = Loading.service
@@ -79,7 +77,7 @@ if(LOGIN_SESSION_KEY) {
       // store.commit()
     }
   }).catch(() => {
-    localStorage.removeItem('TOKEN')
+    // localStorage.removeItem('TOKEN')
   })
 }
 

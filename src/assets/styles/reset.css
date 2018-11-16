@@ -12,7 +12,27 @@ body {
 body::-webkit-scrollbar,
 body::-ms-scrollbar,
 body::-o-scrollbar,
-body::-moz-scrollbar{
+body::-moz-scrollbar {
+	display: block;
+	width: 0;
+	height: 0;
+}
+body::-webkit-scrollbar{
+	display: block;
+	width: 0;
+	height: 0;
+}
+body::-ms-scrollbar {
+	display: block;
+	width: 0;
+	height: 0;
+}
+body::-o-scrollbar{
+	display: block;
+	width: 0;
+	height: 0;
+}
+body::-moz-scrollbar {
 	display: block;
 	width: 0;
 	height: 0;

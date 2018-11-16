@@ -2,18 +2,8 @@
 	<div class="appointment-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
 		<div class="appointment-user-info-wrap">
-			<form id="payForm" v-show="false" method="post" target="_blank" :action="payUrl">
-				<input type="hidden" name="WIDsubject" value="预约上门服务">
-				<input type="hidden" name="name" v-model="userSubmitInfo.username">
-				<input type="hidden" name="sex" v-model="userSubmitInfo.sex">
-				<input type="hidden" name="type" v-model="userSubmitInfo.type">
-				<input type="hidden" name="year" v-model="userSubmitInfo.year">
-				<input type="hidden" name="month" v-model="userSubmitInfo.month">
-				<input type="hidden" name="day" v-model="userSubmitInfo.day">
-				<input type="hidden" name="hour" v-model="userSubmitInfo.hour">
-				<input type="hidden" name="tel" v-model="userSubmitInfo.tel">
-				<input type="hidden" name="paytype" value="2">
-				<input type="hidden" name="WIDtotal_amount" value="0.02">
+			<form id="payForm" v-show="false" method="post" :action="payUrl">
+				<input type="hidden" name="sn" v-model="payObj.sn">
 				<button id="submitPayForm" type="submit"></button>
 			</form>
 			<el-form
@@ -124,7 +114,7 @@
 						<span>手机号码：</span>
 					</el-col>
 					<el-col :span="22" class="form-row-input-area">
-						<el-form-item class="form-item" prop="mobile">
+						<el-form-item class="form-item" prop="tel">
 							<el-input
 								v-model="userSubmitInfo.tel"
 								placeholder="请输入手机号码"
@@ -138,7 +128,7 @@
 						<span>预约金额：</span>
 					</el-col>
 					<el-col :span="22" class="form-row-input-area tool">
-						<span class="amount">0.02</span>
+						<span class="amount">{{apponitPrice}}</span>
 						<span class="price-unit">￥</span>
 						<el-button type="primary" class="submit-button" @click="validateAppointInfo">去支付</el-button>
 					</el-col>
@@ -164,6 +154,7 @@
 					address: ['预约上门'],
 				},
 				payUrl: baseUrl + Api.POST_PAY_PATH,
+				apponitPrice: 0,
 				userSubmitInfo: {
 					username: '',
 					sex: 1,
@@ -173,6 +164,10 @@
 					date: '',
 					hour: '',
 					tel: '',
+					paytype: 2,
+				},
+				payObj: {
+					sn: ''
 				},
 				userSubmitRule: {
 					username: [ { required: true, message: '请输入名称' } ],
@@ -221,6 +216,9 @@
 		components: {
 			Breadcrumb,
 		},
+		created() {
+			this.getAppointPrice()
+		},
 		mounted() {
 			let orderId = this.$route.query.orderId
 
@@ -259,8 +257,28 @@
 				this.$refs.userSubmitForm.validate(valid => {
 					if(valid) {
 						console.log('校验通过')
-						document.querySelector('#submitPayForm').click()
-						// document.querySelector('#payForm').submit()
+						this.createOrder()
+					}
+				})
+			},
+			createOrder() {
+				this.$http.post(this.Api.POST_CREATE_ORDER, this.$qs.stringify(this.userSubmitInfo)).then(resp => {
+					let { data, status } = resp
+
+					if(status === 200) {
+						this.payObj.sn = data
+						this.$nextTick(() => {
+							document.querySelector('#submitPayForm').click()
+						})
+					}
+				})
+			},
+			getAppointPrice() {
+				this.$http.post(this.Api.POST_APPOINTMENT_PRICE).then(resp => {
+					let { data, status } = resp
+
+					if (status === 200) {
+						this.apponitPrice = data
 					}
 				})
 			}

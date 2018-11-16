@@ -1,4 +1,5 @@
-const baseUrl = process.env.NODE_ENV === 'production' ? location.protocol : 'https:'
+const protocol = process.env.NODE_ENV === 'production' ? location.protocol : 'https:'
+const baseUrl = protocol + '//www.51dashizaixian.com'
 const Api = {
 	POST_LOGIN: '/home/login/index', // 登录
 	POST_SEND: '/home/login/send',//短信登陆
@@ -15,8 +16,9 @@ const Api = {
 	POST_VALIDATE_ORDER: '/home/order/checkorder', // 查询订单状态
 	POST_APPOINTMENT_PRICE: '/home/index/seramount', // 查询预约上门服务价格
 	POST_VALIDATE_LOGIN_STATUS: '/home/login/checkmember', // 验证登录状态
-	POST_PAY_PATH: '/home/pay/pay', // 支付
+	POST_PAY_PATH: '/home/pay/alipay', // 支付
+	POST_CREATE_ORDER: '/home/pay/getorder', // 生成订单
 }
 
 
-export { baseUrl, Api }
+export { protocol, baseUrl, Api }

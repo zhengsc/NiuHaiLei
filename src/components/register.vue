@@ -94,297 +94,333 @@
 </template>
 
 <script>
-    const COUNT_DOWN_SECOND = 60
+const COUNT_DOWN_SECOND = 60;
 
-    export default {
-        data() {
-            return {
-                registerObj: {
-					tel: '',
-					code: '',
-					password:'12345',
-					name:'ljx',
-					sn: '',
-				},
-				registerContainerShow: false,
-				countDown: COUNT_DOWN_SECOND,
-                isSendingCode: false,
-                agreement: true,
-                registerType: 'thirdPart'
-            }
-        },
-        computed: {
-			submitInfoBtnDisabled() {
-				return !this.isPhone() || !this.registerObj.code
-			}
-		},
-		mounted() {
-			this.registerContainerShow = true
-		},
-		methods: {
-			register() {
-				// TODO register
-				if(this.registerObj.code === '') {
-					this.$message.error('请输入验证码')
-
-					return 
-				}
-                this.$http.post(this.Api.POST_ADD, this.$qs.stringify(this.registerObj)).then(resp => {
-					console.log(resp)
-					console.log('----11111')
-					// 用户信息保存进store
-				 	// this.$store.commit('setUserLoginStatus', {
-					// 	login: true,
-					// 	user: {
-					// 		name: 'zhengsc',
-					// 		tel: '15010042978',
-					// 		birthday: '1535799405',
-					// 		sex: '男',
-					// 		money: 200
-					// 	}
-					// })
-					// 关闭登陆dialog
-					this.$store.commit('setLoginWrapState', false)
-				}).catch(error => {
-				 	console.log(error)
-				 })
-			},
-			sendCode() {
-				this.countDownHandler()
-			},
-			closeRegisterWrapHandler() {
-				this.$store.commit('setRegisterWrapState', false)
-			},
-			isPhone() {
-				return /(13|15|17|18|14|16)[0-9]{9}/.test(this.registerObj.tel)
-			},
-			sendCodeHandler() {
-				if(!this.isPhone()) {
-					this.$message.error('请输入正确的手机号')
-
-					return 
-				}
-                this.$http.post(this.Api.POST_SEND, this.$qs.stringify({
-					tel: this.registerObj.tel
-				})).then(resp => {
-					 console.log(this.registerObj);
-					 console.log('___222');
-					 console.log(resp);
-				 	// login success
-				 	this.$store.commit('setUserLoginStatus', {
-				 		login: true,
-				 		user: resp.data
-				 	})
-				}).catch(error => {
-				 	console.log(error)
-				 })
-				this.sendCode()
-			},
-			countDownHandler() {
-				let timer = null
-				this.isSendingCode = true
-				this.countDown = COUNT_DOWN_SECOND
-
-				timer = setInterval(() => {
-					if(this.countDown > 0) {
-						this.countDown --
-					} else {
-						clearInterval(timer)
-						this.isSendingCode = false
-					}
-				}, 1000)
-			},
-			loginThirdPart(type) {
-				if(!this.agreement) {
-					this.$message.error('请阅读并接受登陆声明')
-					return 
-				}
-
-				this.registerType = 'bindPhone'
-			},
-			phoneCodeAdd() {
-				this.registerType  = 'bindPhone'
-				// this.$store.commit('setLoginWrapState', false)
-				// this.$store.commit('setRegisterWrapState', true)
-			},
-			go2Login() {
-				this.$store.commit('setRegisterWrapState', false)
-				this.$store.commit('setLoginWrapState', true)
-			}
-		}
+export default {
+  data() {
+    return {
+      registerObj: {
+        tel: "",
+        code: "",
+        password: "12345",
+        name: "ljx",
+        sn: ""
+      },
+      registerContainerShow: false,
+      countDown: COUNT_DOWN_SECOND,
+      isSendingCode: false,
+      agreement: true,
+			// registerType: "thirdPart"
+			registerType: 'bindPhone'
+    };
+  },
+  computed: {
+    submitInfoBtnDisabled() {
+      return !this.isPhone() || !this.registerObj.code;
     }
+  },
+  mounted() {
+    this.registerContainerShow = true;
+  },
+  methods: {
+    register() {
+      // TODO register
+      if (this.registerObj.code === "") {
+        this.$message.error("请输入验证码");
+
+        return;
+      }
+      this.$http
+        .post(this.Api.POST_ADD, this.$qs.stringify(this.registerObj))
+        .then(resp => {
+          console.log(resp);
+          console.log("----11111");
+          // 用户信息保存进store
+          // this.$store.commit('setUserLoginStatus', {
+          // 	login: true,
+          // 	user: {
+          // 		name: 'zhengsc',
+          // 		tel: '15010042978',
+          // 		birthday: '1535799405',
+          // 		sex: '男',
+          // 		money: 200
+          // 	}
+          // })
+          // 关闭登陆dialog
+          this.$store.commit("setLoginWrapState", false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    sendCode() {
+      this.countDownHandler();
+    },
+    closeRegisterWrapHandler() {
+      this.$store.commit("setRegisterWrapState", false);
+    },
+    isPhone() {
+      return /(13|15|17|18|14|16)[0-9]{9}/.test(this.registerObj.tel);
+    },
+    sendCodeHandler() {
+      if (!this.isPhone()) {
+        this.$message.error("请输入正确的手机号");
+
+        return;
+      }
+      this.$http
+        .post(
+          this.Api.POST_SEND,
+          this.$qs.stringify({
+            tel: this.registerObj.tel
+          })
+        )
+        .then(resp => {
+          console.log(this.registerObj);
+          console.log("___222");
+          console.log(resp);
+          // login success
+          this.$store.commit("setUserLoginStatus", {
+            login: true,
+            user: resp.data
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      this.sendCode();
+    },
+    countDownHandler() {
+      let timer = null;
+      this.isSendingCode = true;
+      this.countDown = COUNT_DOWN_SECOND;
+
+      timer = setInterval(() => {
+        if (this.countDown > 0) {
+          this.countDown--;
+        } else {
+          clearInterval(timer);
+          this.isSendingCode = false;
+        }
+      }, 1000);
+    },
+    loginThirdPart(type) {
+      if (!this.agreement) {
+        this.$message.error("请阅读并接受登陆声明");
+        return;
+      }
+
+      this.registerType = "bindPhone";
+    },
+    phoneCodeAdd() {
+      this.registerType = "bindPhone";
+      // this.$store.commit('setLoginWrapState', false)
+      // this.$store.commit('setRegisterWrapState', true)
+    },
+    go2Login() {
+      this.$store.commit("setRegisterWrapState", false);
+      this.$store.commit("setLoginWrapState", true);
+    }
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
-    @keyframes translate-in {
-		0% {
-			transform: translateY(-3000px);
-		}
-		60% {
-			transform: translateY(25px);
-		}
-		75% {
-			transform: translateY(-10px);
-		}
-		90% {
-			transform: translateY(5px);
-		}
-		100% {
-			transform: translateY(0);
-		}
+@keyframes translate-in {
+	0% {
+		transform: translateY(-3000px);
 	}
 
-	.slide-in-enter-active, .slide-in-leave-active {
-		animation: translate-in 1s cubic-bezier(.215, .61, .355, 1);
+	60% {
+		transform: translateY(25px);
 	}
 
-	.register-wrap 
-		position fixed
-		top 0
-		left 0
-		bottom 0
-		right 0
-		overflow hidden
-		background-color rgba(0, 0, 0, 0.8)
-		display flex
-		justify-content center
-		align-items center
-		color #919191
-		z-index 99
+	75% {
+		transform: translateY(-10px);
+	}
 
-		.register-container
-			width 500px
-			height 340px
-			background-color #ffffff
-			border-radius 8px
-			padding 30px 20px
-			position relative
-			transition all .4s ease
+	90% {
+		transform: translateY(5px);
+	}
 
-			&.bind-phone 
-				height 420px
+	100% {
+		transform: translateY(0);
+	}
+}
 
-			.register-close
-				width 14px
-				height 14px
-				position absolute 
-				top 30px
-				right 20px
-				cursor pointer
-				z-index 10
+.slide-in-enter-active, .slide-in-leave-active {
+	animation: translate-in 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
 
-			.phone-binding-module
-				width 100%
+.register-wrap {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #919191;
+	z-index: 99;
 
-				.register-desc-line 
-					height 80px
-					display flex
-					justify-content flex-start
-					align-items center
-					border-bottom 1px solid #ccc
+	.register-container {
+		width: 500px;
+		height: 340px;
+		background-color: #ffffff;
+		border-radius: 8px;
+		padding: 30px 20px;
+		position: relative;
+		transition: all 0.4s ease;
 
-					img 
-						width 24px
-						height auto
-						flex-grow 0
-						margin 0 20px
+		&.bind-phone {
+			height: 420px;
+		}
 
-					div 
-						text-align left
+		.register-close {
+			width: 14px;
+			height: 14px;
+			position: absolute;
+			top: 30px;
+			right: 20px;
+			cursor: pointer;
+			z-index: 10;
+		}
 
-						h3 
-							font-size 16px
-							color #2b2b2b
+		.phone-binding-module {
+			width: 100%;
 
-						p 
-							font-size 12px
-							display flex
-							align-items center
+			.register-desc-line {
+				height: 80px;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				border-bottom: 1px solid #ccc;
 
-							span 
-								color #ff3a00
+				img {
+					width: 24px;
+					height: auto;
+					flex-grow: 0;
+					margin: 0 20px;
+				}
 
-							img 
-								width 14px
-								height 14px
-								margin-right 4px
-								margin-left 0
+				div {
+					text-align: left;
 
-				.register-input-wrap
-					width 340px
-					margin auto
-					margin-top 40px
+					h3 {
+						font-size: 16px;
+						color: #2b2b2b;
+					}
 
-					.register-form-code-line
-						display flex
-						justify-content center
-						align-items center
+					p {
+						font-size: 12px;
+						display: flex;
+						align-items: center;
 
-						.code-line-button
-							margin-left 10px
-							color #fff
-							background-color #0060cd
+						span {
+							color: #ff3a00;
+						}
 
-				.register-form-tool-wrap
-					text-align center
+						img {
+							width: 14px;
+							height: 14px;
+							margin-right: 4px;
+							margin-left: 0;
+						}
+					}
+				}
+			}
 
-				.register-form-submit
-					width 220px
-					margin-top 10px
+			.register-input-wrap {
+				width: 340px;
+				margin: auto;
+				margin-top: 40px;
 
+				.register-form-code-line {
+					display: flex;
+					justify-content: center;
+					align-items: center;
 
-			.third-part-register-container 
-				width 100%
-				position relative
+					.code-line-button {
+						margin-left: 10px;
+						color: #fff;
+						background-color: #0060cd;
+					}
+				}
+			}
 
-				h3 
-					text-align center 
-					color #2b2b2b
+			.register-form-tool-wrap {
+				text-align: center;
+			}
 
-				.third-part-list
-					display flex
-					justify-content space-around
-					align-items center
-					margin 30px 0
+			.register-form-submit {
+				width: 220px;
+				margin-top: 10px;
+			}
+		}
 
-					div 
-						display flex
-						justify-content center
-						align-items center
-						flex-direction column
-						width 100px
-						cursor pointer
+		.third-part-register-container {
+			width: 100%;
+			position: relative;
 
-						img 
-							width 100px
-							height auto
+			h3 {
+				text-align: center;
+				color: #2b2b2b;
+			}
 
-						span 
-							font-size 14px
-							margin-top 10px
+			.third-part-list {
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				margin: 30px 0;
 
-				.agreement-container
-					display flex
-					justify-content center
-					align-items center
-					font-size 14px
+				div {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex-direction: column;
+					width: 100px;
+					cursor: pointer;
 
-					p 
-						margin-left 10px
+					img {
+						width: 100px;
+						height: auto;
+					}
 
-						a 
-							text-decoration underline
+					span {
+						font-size: 14px;
+						margin-top: 10px;
+					}
+				}
+			}
 
-				.go-login-container
-					text-align center
-					font-size 14px
-					margin-top 20px
+			.agreement-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 14px;
 
-					a 
-						color #008aff
+				p {
+					margin-left: 10px;
 
+					a {
+						text-decoration: underline;
+					}
+				}
+			}
 
+			.go-login-container {
+				text-align: center;
+				font-size: 14px;
+				margin-top: 20px;
 
-
-
+				a {
+					color: #008aff;
+				}
+			}
+		}
+	}
+}
 </style>

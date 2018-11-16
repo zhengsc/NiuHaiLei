@@ -20,13 +20,13 @@
 							<el-form-item
 								label=""
 							>
-								<el-input v-model="loginObj.tel" placeholder="手机号"></el-input>
+								<el-input v-model.number="loginObj.tel" placeholder="手机号"></el-input>
 							</el-form-item>
 							<el-form-item
 								label=""
 							>
 								<div class="login-form-code-line">
-									<el-input class="code-line-input" v-model="loginObj.code" placeholder="验证码"></el-input>
+									<el-input class="code-line-input" v-model.number="loginObj.code" placeholder="验证码"></el-input>
 									<el-button 
 										type="text"
 										class="code-line-button" 
@@ -99,7 +99,8 @@
 				loginContainerShow: false,
 				countDown: COUNT_DOWN_SECOND,
 				isSendingCode: false,
-				loginType: 'thirdPart'
+				// loginType: 'thirdPart'
+				loginType: 'phone'
 			}
 		},
 		computed: {
@@ -137,13 +138,7 @@
 					// 用户信息保存进store
 				 	this.$store.commit('setUserLoginStatus', {
 						login: true,
-						user: {
-							name: 'zhengsc',
-							tel: '15010042978',
-							birthday: '1535799405',
-							sex: '男',
-							money: 200
-						}
+						user: resp.data
 					})
 					// 关闭登陆dialog
 					this.$store.commit('setLoginWrapState', false)
