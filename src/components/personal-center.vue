@@ -95,7 +95,7 @@
 			submitChargeOrder() {
 				let checked = this.chargeList[this.chargeCheckedItem]
 				this.$http.post(this.Api.POST_CREATE_ORDER, this.$qs.stringify({
-					moneh: checked.money,
+					money: checked.money,
 					paytype: 3,
 				})).then(resp => {
 					let { data, status } = resp
@@ -103,7 +103,7 @@
 					if(status === 200) {
 						this.payObj.sn = data
 						this.$nextTick(() => {
-							// document.querySelector('#submitPayForm').click()
+							document.querySelector('#submitPayForm').click()
 						})
 					}
 				})

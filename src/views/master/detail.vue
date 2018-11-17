@@ -7,6 +7,10 @@
 		>
 			<VideoChat />
 		</el-dialog>
+		<form id="payForm" v-show="false" method="post" :action="payUrl">
+			<input type="hidden" name="sn" v-model="payObj.sn">
+			<button id="submitPayForm" type="submit"></button>
+		</form>
 		<div class="master-personal-info">
 			<div class="master-personal-img">
 				<el-carousel 
@@ -52,6 +56,7 @@
 					class="master-server-item" 
 					v-for="(server, index) in masterDetail.fuwu"
 					:key="index"
+					@click="submitOrder(server)"
 				>
 					<div class="item-desc">
 						<p class="item-desc-title">
@@ -149,6 +154,7 @@
 
 	import mockData from '../../assets/js/mock'
 	import Util from '../../assets/js/util'
+	import { baseUrl, Api } from '../../api.js'
 
 	export default {
 		data() {
@@ -245,7 +251,11 @@
 						}
 					]
 				},
-				otherMasterList: mockData.masterList.slice(0, 4)
+				otherMasterList: mockData.masterList.slice(0, 4),
+				payUrl: baseUrl + Api.POST_PAY_PATH,
+				payObj: {
+					sn: ''
+				}
 			}
 		},
 		components: {
@@ -274,16 +284,35 @@
 			}
 		},
 		created() {
+			let url = location.search
+			let reg = url.match(/(\?|&)orderId=(\w+)($|&)/)
 			let id = this.$route.query.id
-			let orderId = this.$route.query.orderId
 
-			if (orderId) {
-				this.validatePayResule(orderId)
+			if (reg) {
+				this.validatePayResule(reg[2])
 			}
 
 			this.getMasterDetail(id)
 		},
 		methods: {
+			// 提交订单
+			submitOrder(serve) {
+				this.$http.post(this.Api.POST_CREATE_ORDER, this.$qs.stringify({
+					dashiid: this.$route.query.id,
+					serviceid: serve.id,
+					paytype: 1,
+				})).then(resp => {
+					let { data, status } = resp
+
+					if(status === 200) {
+						this.payObj.sn = data
+
+						this.$nextTick(() => {
+							document.querySelector('#submitPayForm').click()
+						})
+					}
+				})
+			},
 			validatePayResule(orderId) {
 				this.$http.post(this.Api.POST_VALIDATE_ORDER, this.$qs.stringify({
 					ordersn,

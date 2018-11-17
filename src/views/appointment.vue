@@ -217,14 +217,13 @@
 			Breadcrumb,
 		},
 		created() {
-			this.getAppointPrice()
-		},
-		mounted() {
-			let orderId = this.$route.query.orderId
+			let url = location.search
+			let reg = url.match(/(\?|&)orderId=(\w+)($|&)/)
 
-			if (orderId) {
-				this.validatePayResule(orderId)
+			if (reg) {
+				this.validatePayResule(reg[2])
 			}
+			this.getAppointPrice()
 		},
 		methods: {
 			validatePayResule(ordersn) {
@@ -235,7 +234,9 @@
 
 					if (status === 1 && kind === 2) {
 						this.$alert('恭喜你，预约成功', '提示', {
-							type: 'success'
+							type: 'success',
+							showClose: false,
+							
 						}).then(() => {
 							this.$route.replace('/appointment')
 						})

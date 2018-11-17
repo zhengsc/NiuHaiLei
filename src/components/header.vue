@@ -84,10 +84,11 @@
 			PersonalCenter,
 		},
 		created() {
-			let orderId = this.$route.query.orderId
+			let url = location.search
+			let reg = url.match(/(\?|&)orderId=(\w+)($|&)/)
 
-			if (orderId) {
-				this.validatePayResule(orderId)
+			if (reg) {
+				this.validatePayResule(reg[2])
 			}
 		},
 		methods: {
