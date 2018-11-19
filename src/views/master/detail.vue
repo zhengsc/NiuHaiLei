@@ -1,6 +1,16 @@
 <template>
 	<div class="master-detail-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
+		<el-dialog
+			:visible.sync="videoChatDialogVisible"
+			fullscreen
+		>
+			<VideoChat />
+		</el-dialog>
+		<form id="payForm" v-show="false" method="post" :action="payUrl">
+			<input type="hidden" name="sn" v-model="payObj.sn">
+			<button id="submitPayForm" type="submit"></button>
+		</form>
 		<div class="master-personal-info">
 			<div class="master-personal-img">
 				<el-carousel 
@@ -60,7 +70,7 @@
 						</p>
 					</div>
 					<div class="item-status">
-						<div v-if="masterDetail.info.status == 1">
+						<div v-if="masterDetail.info.status == 1" @click="submitOrder(server)">
 							<p>大师在线</p>
 							<p>开始呼叫</p>
 						</div>
@@ -68,6 +78,9 @@
 							<p>业务繁忙</p>
 							<p>暂停接单</p>
 						</div>
+					</div>
+					<div>
+                      <el-button @click="showVideoChatDialog">视频</el-button>
 					</div>
 				</div>
 			</div>
@@ -136,9 +149,11 @@
 <script>
 	import Breadcrumb from '../../components/breadcrumb'
 	import Master from '../../components/master'
+	import VideoChat from '../../components/videoChat.vue'
 
 	import mockData from '../../assets/js/mock'
 	import Util from '../../assets/js/util'
+	import { baseUrl, Api } from '../../api.js'
 
 	export default {
 		data() {
@@ -154,6 +169,7 @@
 					comment: '',
 				},
 				totalComment: 200,
+				videoChatDialogVisible: false,
 				masterDetail: {
 					info: {
 						content: '',
@@ -234,12 +250,17 @@
 						}
 					]
 				},
-				otherMasterList: mockData.masterList.slice(0, 4)
+				otherMasterList: mockData.masterList.slice(0, 4),
+				payUrl: baseUrl + Api.POST_PAY_PATH,
+				payObj: {
+					sn: ''
+				}
 			}
 		},
 		components: {
 			Breadcrumb,
 			Master,
+			VideoChat,
 		},
 		watch: {
 			'userInputData.comment': {
@@ -262,15 +283,56 @@
 			}
 		},
 		created() {
+			let url = location.search
+			let reg = url.match(/(\?|&)orderId=(\w+)($|&)/)
 			let id = this.$route.query.id
+
+			if (reg) {
+				this.validatePayResule(reg[2])
+			}
 
 			this.getMasterDetail(id)
 		},
 		methods: {
+			// 提交订单
+			submitOrder(serve) {
+				this.$http.post(this.Api.POST_CREATE_ORDER, this.$qs.stringify({
+					dashiid: this.$route.query.id,
+					serviceid: serve.id,
+					paytype: 1,
+				})).then(resp => {
+					let { data, status } = resp
+
+					if(status === 200) {
+						this.payObj.sn = data
+
+						this.$nextTick(() => {
+							document.querySelector('#submitPayForm').click()
+						})
+					}
+				})
+			},
+			validatePayResule(orderId) {
+				this.$http.post(this.Api.POST_VALIDATE_ORDER, this.$qs.stringify({
+					ordersn,
+				})).then(resp => {
+					let { data: { status, kind } } = resp
+
+					if (status === 1 && kind === 1) {
+						// TODO 连接大师
+					}
+				})
+			},
+			toggleVideoChatDialog() {
+				this.videoChatDialogVisible = !this.videoChatDialogVisible
+			},
+			showVideoChatDialog() {
+				this.toggleVideoChatDialog()
+			},
 			getMasterDetail(id) {
-				this.$http.post(this.Api.POST_MASTER_DETAIL, {
-					id,
-				}).then(response => {
+				this.$http.post(this.Api.POST_MASTER_DETAIL, 
+					this.$qs.stringify({id:this.$route.query.id})
+				).then(response => {
 					this.masterDetail = response.data
 				})
 			},
@@ -278,11 +340,11 @@
 				return Util.getDateString(timestamp)
 			},
 			submitComment() {
-				this.$http.post(this.Api.POST_SUBMIT_COMMENT, {
+				this.$http.post(this.Api.POST_SUBMIT_COMMENT, this.$qs.stringify({
 					content: this.userInputData.comment,
 					mid: this.getLoginStatus.user.mid,
 					uid: this.masterDetail.info.id,
-				}).then(resp => {
+				})).then(resp => {
 					console.log(resp)
 				}).catch(error => {
 					console.log(error)

@@ -74,9 +74,9 @@
 				this.pagination.page = page
 			},
 			getStoryList() {
-				this.$http.post(this.Api.POST_STORY_LIST, {
+				this.$http.post(this.Api.POST_STORY_LIST, this.$qs.stringify({
 					page: this.pagination.page,
-				}).then(response => {
+				})).then(response => {
 					this.storyList = response.data
 					this.pagination.pageCount = response.pagetotal
 				})

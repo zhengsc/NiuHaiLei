@@ -83,7 +83,30 @@
 		components: {
 			PersonalCenter,
 		},
+		created() {
+			let url = location.search
+			let reg = url.match(/(\?|&)orderId=(\w+)($|&)/)
+
+			if (reg) {
+				this.validatePayResule(reg[2])
+			}
+		},
 		methods: {
+			validatePayResule(ordersn) {
+				this.$http.get(this.Api.validateOrderId, {
+					ordersn,
+				}).then(resp => {
+					let { data: { status, kind } } = resp
+					
+					if (this.getUserLoginStatus.login && status === 1 && kind === 3) {
+						this.$alert('恭喜你，充值成功', '提示', {
+							type: 'success'
+						}).then(() => {
+							this.togglePersonalCetnerDialog()
+						})
+					}
+				})
+			},
 			openLoginWrapHandler() {
 				this.$store.commit('setLoginWrapState', true)
 			},
@@ -102,6 +125,8 @@
 					login: false,
 					user: null
 				})
+
+				localStorage.removeItem('TOKEN')
 			}
 		}
 	}
@@ -186,4 +211,8 @@
 							display flex
 							align-items center
 							justify-content center
+
+							&.active,
+							&:hover
+								background-color #533231
 </style>

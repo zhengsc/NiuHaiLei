@@ -186,9 +186,9 @@
 		},
 		methods: {
 			getMasterList: function() {
-				this.$http.post(this.Api.POST_MASTER_LIST, {
+				this.$http.post(this.Api.POST_MASTER_LIST, this.$qs.stringify({
 					page: 1
-				}).then(response => {
+				})).then(response => {
 					this.masterList = response.data
 				}).catch(error => {
 					console.log(error)

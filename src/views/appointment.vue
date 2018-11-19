@@ -2,6 +2,10 @@
 	<div class="appointment-wrap">
 		<Breadcrumb :breadcrumb="breadcrumb" />
 		<div class="appointment-user-info-wrap">
+			<form id="payForm" v-show="false" method="post" :action="payUrl">
+				<input type="hidden" name="sn" v-model="payObj.sn">
+				<button id="submitPayForm" type="submit"></button>
+			</form>
 			<el-form
 				:model="userSubmitInfo"
 				:rules="userSubmitRule"
@@ -107,10 +111,24 @@
 				</el-row>
 				<el-row class="form-row" type="flex" justify="start" align="middle">
 					<el-col :span="2">
+						<span>手机号码：</span>
+					</el-col>
+					<el-col :span="22" class="form-row-input-area">
+						<el-form-item class="form-item" prop="tel">
+							<el-input
+								v-model="userSubmitInfo.tel"
+								placeholder="请输入手机号码"
+								class="w300"
+							></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row class="form-row" type="flex" justify="start" align="middle">
+					<el-col :span="2">
 						<span>预约金额：</span>
 					</el-col>
 					<el-col :span="22" class="form-row-input-area tool">
-						<span class="amount">120.00</span>
+						<span class="amount">{{apponitPrice}}</span>
 						<span class="price-unit">￥</span>
 						<el-button type="primary" class="submit-button" @click="validateAppointInfo">去支付</el-button>
 					</el-col>
@@ -122,6 +140,7 @@
 
 <script>
 	import Util from '../assets/js/util'
+	import { baseUrl, Api } from '../api.js'
 	import Breadcrumb from '../components/breadcrumb'
 
 	export default {
@@ -134,6 +153,8 @@
 					},
 					address: ['预约上门'],
 				},
+				payUrl: baseUrl + Api.POST_PAY_PATH,
+				apponitPrice: 0,
 				userSubmitInfo: {
 					username: '',
 					sex: 1,
@@ -142,6 +163,11 @@
 					month: '',
 					date: '',
 					hour: '',
+					tel: '',
+					paytype: 2,
+				},
+				payObj: {
+					sn: ''
 				},
 				userSubmitRule: {
 					username: [ { required: true, message: '请输入名称' } ],
@@ -151,6 +177,15 @@
 					date: [ { required: true, message: '请选择出生日期' } ],
 					hour: [ { required: true, message: '请选择出生时辰' } ],
 					sex: [ { required: true, message: '请选择性别' } ],
+					tel: [ {
+						required: true,
+						message: '请输入手机号码'
+					}, {
+						validator (rule, val, cb) {
+							if (!/(13|14|15|16|17|18|19)\d{9}/.test(val)) return cb(new Error('请输入正确的手机号码'))
+							return cb()
+						}
+					} ],
 				},
 				monthes: [
 					{ id: 1, text: '一月' },
@@ -181,7 +216,33 @@
 		components: {
 			Breadcrumb,
 		},
+		created() {
+			let url = location.search
+			let reg = url.match(/(\?|&)orderId=(\w+)($|&)/)
+
+			if (reg) {
+				this.validatePayResule(reg[2])
+			}
+			this.getAppointPrice()
+		},
 		methods: {
+			validatePayResule(ordersn) {
+				this.$http.post(this.Api.POST_VALIDATE_ORDER, this.$qs.stringify({
+					ordersn,
+				})).then(resp => {
+					let { data: { status, kind } } = resp
+
+					if (status === 1 && kind === 2) {
+						this.$alert('恭喜你，预约成功', '提示', {
+							type: 'success',
+							showClose: false,
+							
+						}).then(() => {
+							this.$route.replace('/appointment')
+						})
+					}
+				})
+			},
 			setDateList() {
 				if(this.userSubmitInfo.year && this.userSubmitInfo.month) {
 					let date = new Date(this.userSubmitInfo.year, this.userSubmitInfo.month, 0)
@@ -196,7 +257,29 @@
 			validateAppointInfo() {
 				this.$refs.userSubmitForm.validate(valid => {
 					if(valid) {
-						// TODO 支付
+						console.log('校验通过')
+						this.createOrder()
+					}
+				})
+			},
+			createOrder() {
+				this.$http.post(this.Api.POST_CREATE_ORDER, this.$qs.stringify(this.userSubmitInfo)).then(resp => {
+					let { data, status } = resp
+
+					if(status === 200) {
+						this.payObj.sn = data
+						this.$nextTick(() => {
+							document.querySelector('#submitPayForm').click()
+						})
+					}
+				})
+			},
+			getAppointPrice() {
+				this.$http.post(this.Api.POST_APPOINTMENT_PRICE).then(resp => {
+					let { data, status } = resp
+
+					if (status === 200) {
+						this.apponitPrice = data
 					}
 				})
 			}

@@ -20,13 +20,13 @@
 							<el-form-item
 								label=""
 							>
-								<el-input v-model="loginObj.tel" placeholder="手机号"></el-input>
+								<el-input v-model.number="loginObj.tel" placeholder="手机号"></el-input>
 							</el-form-item>
 							<el-form-item
 								label=""
 							>
 								<div class="login-form-code-line">
-									<el-input class="code-line-input" v-model="loginObj.code" placeholder="验证码"></el-input>
+									<el-input class="code-line-input" v-model.number="loginObj.code" placeholder="验证码"></el-input>
 									<el-button 
 										type="text"
 										class="code-line-button" 
@@ -38,7 +38,7 @@
 							<el-form-item
 								label=""
 							>
-								<el-input placeholder="支付码（选题）" v-model="loginObj.payCode"></el-input>
+								<el-input placeholder="支付码（选题）" v-model="loginObj.sn"></el-input>
 							</el-form-item>
 							<div class="login-form-tool-wrap">
 								<el-button 
@@ -92,14 +92,15 @@
 		data() {
 			return {
 				loginObj: {
-					tel: '18310469506',
-					code: '123456',
-					payCode: '',
+					tel: '15010042978',
+					code: '',
+					sn: '',
 				},
 				loginContainerShow: false,
 				countDown: COUNT_DOWN_SECOND,
 				isSendingCode: false,
-				loginType: 'thirdPart'
+				// loginType: 'thirdPart'
+				loginType: 'phone'
 			}
 		},
 		computed: {
@@ -109,9 +110,9 @@
 		},
 		mounted() {
 			this.loginContainerShow = true
-			this.$nextTick(() => {
-				this.initQQLogin()
-			})
+			// this.$nextTick(() => {
+			// 	this.initQQLogin()
+			// })
 		},
 		methods: {
 			initQQLogin() {
@@ -130,27 +131,20 @@
 				})
 			},
 			login() {
-				this.$store.commit('setUserLoginStatus', {
-					login: true,
-					user: {
-						name: 'zhengsc',
-						tel: '18310469506',
-						birthday: '1535799405',
-						sex: '男',
-						money: 200
-					}
-				})
-				this.$store.commit('setLoginWrapState', false)
-				// this.$http.post(this.Api.POST_LOGIN, this.loginObj).then(resp => {
-				// 	console.log(resp)
-				// 	// login success
-				// 	this.$store.commit('setUserLoginStatus', {
-				// 		login: true,
-				// 		user: resp.data
-				// 	})
-				// }).catch(error => {
-				// 	console.log(error)
-				// })
+				this.$http.post(this.Api.POST_LOGIN, this.$qs.stringify(this.loginObj)).then(resp => {
+					console.log(resp)
+					this.$message.success('登录成功')
+					localStorage.setItem('TOKEN', resp.data.token)
+					// 用户信息保存进store
+				 	this.$store.commit('setUserLoginStatus', {
+						login: true,
+						user: resp.data
+					})
+					// 关闭登陆dialog
+					this.$store.commit('setLoginWrapState', false)
+				}).catch(error => {
+				 	console.log(error)
+				 })
 			},
 			sendCode() {
 				this.countDownHandler()
@@ -162,12 +156,22 @@
 				return /(13|15|17|18|14|16)[0-9]{9}/.test(this.loginObj.tel)
 			},
 			sendCodeHandler() {
-				if(!this.isPhone()) {
-					this.$message.error('请输入正确的手机号')
+				// if(!this.isPhone()) {
+				// 	this.$message.error('请输入正确的手机号')
 
-					return 
-				}
-
+				// 	return 
+				// }
+				this.$http.post(this.Api.POST_SEND, this.$qs.stringify({
+					tel: this.loginObj.tel
+				})).then(resp => {
+				 	// login success
+				 	this.$store.commit('setUserLoginStatus', {
+				 		login: true,
+				 		user: resp.data
+				 	})
+				}).catch(error => {
+				 	console.log(error)
+				 })
 				this.sendCode()
 			},
 			countDownHandler() {
@@ -185,9 +189,10 @@
 				}, 1000)
 			},
 			loginThirdPart(type) {
-				if(type === 'QQ') {
-					document.querySelector('#QQ-login-btn a').click()
-				}
+				this.$message.error('暂未开放，请先使用手机验证码登陆')
+				// if(type === 'QQ') {
+				// 	document.querySelector('#QQ-login-btn a').click()
+				// }
 			},
 			phoneCodeLogin() {
 				this.loginType = 'phone'

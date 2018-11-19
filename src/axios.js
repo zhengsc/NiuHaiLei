@@ -14,6 +14,12 @@ axios.interceptors.request.use(function(config) {
 		background: 'rgba(0, 0, 0, 0.7)',
 	})
 
+	let token = localStorage.getItem('TOKEN')
+
+	if(token) {
+		config.headers.token = token
+	}
+
 	console.log(config)
 	
 	return config
@@ -30,6 +36,9 @@ axios.interceptors.response.use(function(response) {
 
 	if(resp.status !== 200) {
 		Message.error(resp.info || '请求失败')
+		return Promise.reject(response)
+	} else if(resp.status === 301) {
+		Message.error('对不起，此操作需要登录，请点击右上角登录按钮')
 		return Promise.reject(response)
 	}
 

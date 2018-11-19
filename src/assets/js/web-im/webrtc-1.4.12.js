@@ -573,7 +573,7 @@
 	            self._onInitC.apply(self, arguments);
 	        }, self.api.onIceConnectionStateChange = function () {
 	            self.listener.onIceConnectionStateChange.apply(self, arguments);
-	        };
+			};
 	    },
 
 	    makeVideoCall: function makeVideoCall(callee, accessSid) {

@@ -1,6 +1,10 @@
 <template>
 	<div class="personal-center-wrap">
 		<div class="personal-info">
+			<form id="payForm" v-show="false" method="post" :action="payUrl">
+				<input type="hidden" name="sn" v-model="payObj.sn">
+				<button id="submitPayForm" type="submit"></button>
+			</form>
 			<div class="info-left">
 				<img src="../assets/images/personal-center-user-img.png" alt="">
 				<div class="info-container">
@@ -49,40 +53,24 @@
 					>
 				</div>
 			</div>
-			<el-button class="check-charge-item-btn" type="primary">确认</el-button>
+			<el-button @click="submitChargeOrder" class="check-charge-item-btn" type="primary">确认</el-button>
 		</div>
 	</div>
 </template>
 
 <script>
 	import Util from '../assets/js/util'
+	import { baseUrl, Api } from '../api.js'
 
 	export default {
 		data() {
 			return {
-				chargeList: [
-					{
-						money: 400,
-						iscommend: 1
-					},
-					{
-						money: 300,
-						iscommend: 0
-					},
-					{
-						money: 200,
-						iscommend: 0
-					},
-					{
-						money: 100,
-						iscommend: 0
-					},
-					{
-						money: 100,
-						iscommend: 0
-					},
-				],
+				chargeList: [],
 				chargeCheckedItem: 0,
+				payObj: {
+					sn: ''
+				},
+				payUrl: baseUrl + Api.POST_PAY_PATH,
 			}
 		},
 		computed: {
@@ -104,9 +92,27 @@
 			checkChargeItem(index) {
 				this.chargeCheckedItem = index
 			},
+			submitChargeOrder() {
+				let checked = this.chargeList[this.chargeCheckedItem]
+				this.$http.post(this.Api.POST_CREATE_ORDER, this.$qs.stringify({
+					money: checked.money,
+					paytype: 3,
+				})).then(resp => {
+					let { data, status } = resp
+
+					if(status === 200) {
+						this.payObj.sn = data
+						this.$nextTick(() => {
+							document.querySelector('#submitPayForm').click()
+						})
+					}
+				})
+			},
 			getChargeList() {
 				this.$http.post(this.Api.POST_CHARGE_LIST).then(resp => {
-					this.chargeList = resp.data
+					if(resp.status === 200) {
+						this.chargeList = resp.data
+					}
 				}).catch(err => {
 					console.log(err)
 				})

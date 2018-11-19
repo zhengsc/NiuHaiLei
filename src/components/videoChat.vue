@@ -1,93 +1,90 @@
 <template>
     <div class="video-chat-wrap">
-        <el-button @click="registerUser">注册</el-button>
-        <el-button @click="loginUser">登陆</el-button>
-        <el-row>
-            <el-col
-                :span="24"
-                class="message-wrap"
-            >
-                <div class="message-scroll-container">
-                    <component
-						v-for="(msg, index) in messageList" 
-						:key="index"
-						:is="'Message' + msg.type"
-						:message="msg"
-					></component>
-                    <!-- <div class="message-item-line master">
-                        <img class="head-sculpture" src="../assets/images/master-detail-comment-user.jpg" alt="">
-                        <div class="message-body">
-                            <p class="message-time">2018-08-31 12:00:00</p>
-                            <div class="message-content">大师，你好</div>
-                        </div>
-                    </div>
-                    <div class="message-item-line self">
-                        <div class="message-body">
-                            <p class="message-time">2018-08-31 12:00:00</p>
-                            <div class="message-content">大师，你好</div>
-                        </div>
-                        <img class="head-sculpture" src="../assets/images/master-detail-comment-write-user.jpg" alt="">
-                    </div>
-                    <div class="message-item-line master">
-                        <img class="head-sculpture" src="../assets/images/master-detail-comment-user.jpg" alt="">
-                        <div class="message-body">
-                            <p class="message-time">2018-08-31 12:00:00</p>
-                            <div class="message-content">大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好</div>
-                        </div>
-                    </div>
-                    <div class="message-item-line self">
-                        <div class="message-body">
-                            <p class="message-time">2018-08-31 12:00:00</p>
-                            <div class="message-content">大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好大师，你好</div>
-                        </div>
-                        <img class="head-sculpture" src="../assets/images/master-detail-comment-write-user.jpg" alt="">
-                    </div> -->
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col
-                :span="24"
-                class="message-tool"
-            >
-                <div class="chat-tool-wrap">
-                    <div class="select-tool">
-                        <img
-                            v-for="(icon, index) in chatToolList"
-                            :key="index"
-                            :src="icon.icon" 
-                            :alt="icon.text"
-                            :title="icon.text"
-                            :class="['chat-tool-icon']"
-							@click="selectMessageType(icon.type)"
-                        >
-						<input class="hidden-input" type="file" id="image-input" accept="image/*" />
-                    </div>
-                    <div class="video-btn">
-                        <img 
-							class="chat-tool-icon primary" 
-							src="../assets/images/video-chat-video.png" 
-							alt="视频通话" 
-							title="视频通话"
-							@click="selectMessageType('video')"
-						>
-                    </div>
-                </div>
-                <div class="chat-input-wrap">
-                    <el-input 
-                        type="textarea" 
-                        placeholder="请输入消息内容"
-                        resize="none"
-                        :autofocus="true"
-                        :rows="4"
-						v-model="messageBody"
-                    ></el-input>
-                </div>
-                <div class="chat-send-message">
-                    <el-button type="primary" @click="sendMessage('text')">发送</el-button>
-                </div>
-            </el-col>
-        </el-row>
+		<el-carousel
+			height="100%"
+			:autoplay="false"
+			indicator-position="none"
+			arrow="never"
+			:initial-index="1"
+			class="video-chat-carousel"
+			ref="videoChat"
+		>
+			<el-carousel-item class="video-chat-carousel-item">
+				<el-button @click="registerUser">注册</el-button>
+				<el-button @click="loginUser">登陆</el-button>
+				<el-row>
+					<el-col
+						:span="24"
+						class="message-wrap"
+					>
+						<div class="message-scroll-container">
+							<component
+								v-for="(msg, index) in messageList" 
+								:key="index"
+								:is="'Message' + msg.type"
+								:message="msg"
+							></component>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col
+						:span="24"
+						class="message-tool"
+					>
+						<div class="chat-tool-wrap">
+							<div class="select-tool">
+								<img
+									v-for="(icon, index) in chatToolList"
+									:key="index"
+									:src="icon.icon" 
+									:alt="icon.text"
+									:title="icon.text"
+									:class="['chat-tool-icon']"
+									@click="selectMessageType(icon.type)"
+								>
+								<input class="hidden-input" type="file" id="image-input" accept="image/*" />
+							</div>
+							<div class="video-btn">
+								<img 
+									class="chat-tool-icon primary" 
+									src="../assets/images/video-chat-video.png" 
+									alt="视频通话" 
+									title="视频通话"
+									@click="selectMessageType('video')"
+								>
+							</div>
+						</div>
+						<div class="chat-input-wrap">
+							<el-input 
+								type="textarea" 
+								placeholder="请输入消息内容"
+								resize="none"
+								:autofocus="true"
+								:rows="4"
+								v-model="messageBody"
+							></el-input>
+						</div>
+						<div class="chat-send-message">
+							<el-button type="primary" @click="sendMessage('text')">发送</el-button>
+						</div>
+					</el-col>
+				</el-row>
+			</el-carousel-item>
+			<el-carousel-item class="video-chat-carousel-item">
+				<div class="video-group">
+					<div class="video-wrap remote">
+						<video id="remoteVideo" autoplay></video>
+					</div>
+					<div class="video-wrap local">
+						<video id="localVideo" autoplay></video>
+					</div>
+				</div>
+				<div class="video-chat-btn">
+					<el-button @click="hangUpVideoChat" type="danger">挂断</el-button>
+				</div>
+			</el-carousel-item>
+		</el-carousel>
     </div>
 </template>
 
@@ -110,12 +107,13 @@
 				rtcCall: null,
 				messageBody: '',
 				currentLoginUser: '',
+				isCallingVideo: false, // 有视频呼叫
                 chatToolList: [
-                    // {
-					// 	text: '表情',
-					// 	type: 'emoji',
-                    //     icon: require('../assets/images/video-chat-emoji.png'),
-                    // },
+                    {
+						text: '表情',
+						type: 'emoji',
+                        icon: require('../assets/images/video-chat-emoji.png'),
+                    },
                     {
 						text: '图片',
 						type: 'image',
@@ -185,19 +183,39 @@
 			})
 		},
         methods: {
+			acceptVideoChat() {
+				this.$refs.videoChat.setActiveItem(1)
+				this.rtcCall.acceptCall()
+			},
+			hangUpVideoChat() {
+				this.rtcCall.endCall()
+			},
 			getScrollContainerHeight() {
 				return document.querySelector('.message-scroll-container').offsetHeight
 			},
             createWebIM() {
                 this.webIM = new window.WebIM.connection({
-                    isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
-                    https: typeof WebIM.config.https === 'boolean' ? WebIM.config.https : location.protocol === 'https:',
-                    url: WebIM.config.xmppURL,
-                    heartBeatWait: WebIM.config.heartBeatWait,
-                    autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
-                    autoReconnectInterval: WebIM.config.autoReconnectInterval,
-                    apiUrl: WebIM.config.apiURL,
-                    isAutoLogin: true,
+                    // isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
+                    // https: typeof WebIM.config.https === 'boolean' ? WebIM.config.https : location.protocol === 'https:',
+                    // url: WebIM.config.xmppURL,
+                    // heartBeatWait: WebIM.config.heartBeatWait,
+                    // autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
+                    // autoReconnectInterval: WebIM.config.autoReconnectInterval,
+                    // apiUrl: WebIM.config.apiURL,
+					// isAutoLogin: true,
+					isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
+					https: typeof WebIM.config.https === 'boolean' ? WebIM.config.https : location.protocol === 'https:',
+					url: WebIM.config.xmppURL,
+					heartBeatWait: WebIM.config.heartBeatWait,
+					autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
+					autoReconnectInterval: WebIM.config.autoReconnectInterval,
+					apiUrl: WebIM.config.apiURL,
+					isHttpDNS: WebIM.config.isHttpDNS,
+					isWindowSDK: WebIM.config.isWindowSDK,
+					isAutoLogin: true,
+					encrypt: WebIM.config.encrypt,
+					delivery: WebIM.config.delivery,
+					saveLocal: WebIM.config.saveLocal
                 })
 
                 this.setCallback()
@@ -214,7 +232,7 @@
                     onOpened(message) {
                         log('connect success')
 						log(message)
-						_this.initRtcCall()
+						this.$message.success('大师连接成功')
 					},
 					onTextMessage(message) {
 						log('recive text message')
@@ -248,7 +266,8 @@
                     },
                     onError(msg) {
                         log('connect error')
-                        log(msg)
+						log(msg)
+						this.$message.error('大师连接失败')
                     }
                 })
             },
@@ -281,6 +300,7 @@
 					};
 
 					this.webIM.open(opts);
+					this.initRtcCall()
 
 					this.currentLoginUser = resp.value
 				})
@@ -288,6 +308,8 @@
 			},
 			// 初始化实时音视频
 			initRtcCall() {
+				console.log('开始初始化')
+				let _this = this
 				this.rtcCall = new window.WebIM.WebRTC.Call({
 					connection: this.webIM,
 					mediaStreamConstaints: {
@@ -301,16 +323,24 @@
 						//通过streamType区分视频流和音频流，streamType: 'VOICE'(音频流)，'VIDEO'(视频流)
 						onGotRemoteStream: function (stream, streamType) {
 							console.log('onGotRemoteStream::', 'stream: ', stream, 'streamType: ', streamType)
-							// var video = document.getElementById('video')
-							// video.srcObject = stream
+							var video = document.getElementById('remoteVideo')
+							video.srcObject = stream
 						},
 						onGotLocalStream: function (stream, streamType) {
 							console.log('onGotLocalStream::', 'stream:', stream, 'streamType: ', streamType)
-							// var video = document.getElementById('localVideo')
-							// video.srcObject = stream
+							var video = document.getElementById('localVideo')
+							video.srcObject = stream
 						},
 						onRinging: function (caller) {
 							console.log('onRinging::', 'caller:', caller)
+							_this.isCallingVideo = true
+							_this.$confirm('收到视频请求，是否接受？', '提示', {
+								type: 'warning'
+							}).then(resp => {
+								_this.acceptVideoChat()
+							}).catch(() => {
+								_this.hangUpVideoChat()
+							})
 						},
 						onTermCall: function (reason) {
 							console.log('onTermCall::')
@@ -320,6 +350,7 @@
 							console.log('onIceConnectionStateChange::', 'iceState:', iceState)
 						},
 						onError: function (e) {
+							console.log('视频通话失败')
 							console.log(e)
 						}
 					}
@@ -357,8 +388,16 @@
 
 					imageInput.click()
 				} else if(type === 'video') {
-					this.rtcCall.caller = this.currentLoginUser
-					this.rtcCall.makeVideoCall(this.getSendUser)
+					if(window.WebIM.config.isWebRTC) {
+						return this.$alert('使用视频通话功能请使用Firefox/Chrome/Safari浏览器', '提示', {
+							type: 'warning'
+						})
+					} else {
+						this.rtcCall.caller = this.currentLoginUser
+						this.rtcCall.makeVideoCall(this.getSendUser)
+						this.$refs.videoChat.setActiveItem(1)
+					}
+					
 				} else if(type === 'clear') {
 					this.messageList = []
 				}
@@ -486,12 +525,48 @@
         }
     }
 
+	.video-chat-carousel,
+	.video-chat-carousel-item
+		height: 100%
+
+		.video-group
+			position absolute
+			width 100%
+			max-width 800px
+			left 50%
+			transform translate(-50%)
+			height 540px
+
+		.video-wrap
+			position absolute
+			width 100%
+			height 100%
+
+			&.remote
+				width 100%
+				height 540px
+			&.local
+				width 200px
+				height 200px
+				top 0
+				right 0
+
+			video
+				width 100%
+				height 100%
+
+		.video-chat-btn
+			position absolute
+			bottom 0
+			left 50%
+			transform translateX(-50%)
+
 	.hidden-input
 		display: none
 
 	.video-chat-wrap
         width 100%
-        height 560px
+        height 580px
 
         .message-wrap
             height 380px

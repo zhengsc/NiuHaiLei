@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Qs from 'qs'
-import Api from './api.js'
+import { baseUrl, Api } from './api.js'
 import axios from './axios'
 import {
   Input,
@@ -32,6 +32,7 @@ import {
 import './assets/styles/element-ui.scss'
 
 Vue.prototype.$qs = Qs
+Vue.prototype.$baseUrl = baseUrl
 Vue.prototype.Api = Api
 
 Vue.use(Input)
@@ -54,14 +55,33 @@ Vue.use(CarouselItem)
 Vue.use(Dialog)
 
 Vue.use(axios, {
-  baseURL: '/'
+  baseURL: baseUrl
 })
 
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$message = Message
 Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
 
 Vue.config.productionTip = false
+
+let LOGIN_SESSION_KEY = localStorage.getItem('TOKEN')
+
+if(LOGIN_SESSION_KEY) {
+  axios.post(Api.POST_VALIDATE_LOGIN_STATUS, Qs.stringify({
+    token: LOGIN_SESSION_KEY
+  })).then(resp => {
+    let { data: { status } } = resp
+
+    if(status === 0) {
+      // 保存用户信息
+      // store.commit()
+    }
+  }).catch(() => {
+    // localStorage.removeItem('TOKEN')
+  })
+}
 
 new Vue({
   router,
