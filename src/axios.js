@@ -6,7 +6,7 @@ let axios = Axios.create()
 let loading = null
 
 axios.interceptors.request.use(function(config) {
-
+	
 	loading = Loading.service({
 		lock: true,
 		text: 'Loading',

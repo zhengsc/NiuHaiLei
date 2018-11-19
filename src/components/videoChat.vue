@@ -5,7 +5,7 @@
 			:autoplay="false"
 			indicator-position="none"
 			arrow="never"
-			:initial-index="1"
+			:initial-index="0"
 			class="video-chat-carousel"
 			ref="videoChat"
 		>
@@ -352,6 +352,11 @@
 						onError: function (e) {
 							console.log('视频通话失败')
 							console.log(e)
+							_this.$alert('视频通话失败，请重试', '提示', {
+								type: 'danger'
+							}).then(() => {
+								_this.$refs.videoChat.setActiveItem(0)
+							})
 						}
 					}
 				})

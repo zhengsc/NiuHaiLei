@@ -84,16 +84,16 @@
 			PersonalCenter,
 		},
 		created() {
-			let url = location.search
+			let url = location.href
 			let reg = url.match(/(\?|&)orderId=(\w+)($|&)/)
 
-			if (reg) {
+			if (reg && url.indexOf('/?') !== -1) {
 				this.validatePayResule(reg[2])
 			}
 		},
 		methods: {
 			validatePayResule(ordersn) {
-				this.$http.get(this.Api.validateOrderId, {
+				this.$http.get(this.Api.POST_VALIDATE_ORDER, {
 					ordersn,
 				}).then(resp => {
 					let { data: { status, kind } } = resp

@@ -232,13 +232,13 @@
 				})).then(resp => {
 					let { data: { status, kind } } = resp
 
-					if (status === 1 && kind === 2) {
+					if (status === '1' && kind === '2') {
 						this.$alert('恭喜你，预约成功', '提示', {
 							type: 'success',
 							showClose: false,
 							
 						}).then(() => {
-							this.$route.replace('/appointment')
+							this.$router.replace('/appointment')
 						})
 					}
 				})
