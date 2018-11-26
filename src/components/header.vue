@@ -102,7 +102,8 @@
 						this.$alert('恭喜你，充值成功', '提示', {
 							type: 'success'
 						}).then(() => {
-							this.togglePersonalCetnerDialog()
+							// this.togglePersonalCetnerDialog()
+							this.$route.replace('/')
 						})
 					}
 				})
