@@ -213,22 +213,6 @@
 				})
 			},
 			submitUserData() {
-				let f = new FormData(),
-					d = this.userInputData
-
-				// f.append('xing', d.firstName)
-				// f.append('ming', d.lastName)
-				// f.append('sex', d.sex)
-				// f.append('y', d.year)
-				// f.append('m', d.month)
-				// f.append('d', d.date)
-				// f.append('h', d.hour)
-
-				// this.$http.post(this.Api.POST_DIVINATION_DATA, f).then(response => {
-				// 	console.log(response)
-				// }).catch(error => {
-				// 	console.log(error)
-				// })
 				document.querySelector('#form').submit()
 			}
 		}
