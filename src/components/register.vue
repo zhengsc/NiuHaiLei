@@ -3,11 +3,11 @@
         <transition name="slide-in">
 			<div v-if="registerContainerShow" :class="['register-container', registerType === 'bindPhone' ? 'bind-phone' : '']">
 				<img 
-                    class="register-close" 
-                    src="../assets/images/close-icon.png" 
-                    @click="closeRegisterWrapHandler" 
-                    alt=""
-                />
+					class="register-close" 
+					src="../assets/images/close-icon.png" 
+					@click="closeRegisterWrapHandler" 
+					alt=""
+				/>
 				<transition name="slide-in">
 					<div v-if="registerType === 'bindPhone'" class="phone-binding-module">
 						<div class="register-desc-line">
@@ -102,8 +102,6 @@ export default {
       registerObj: {
         tel: "",
         code: "",
-        password: "12345",
-        name: "ljx",
         sn: ""
       },
       registerContainerShow: false,
@@ -133,19 +131,11 @@ export default {
       this.$http
         .post(this.Api.POST_ADD, this.$qs.stringify(this.registerObj))
         .then(resp => {
-          console.log(resp);
-          console.log("----11111");
           // 用户信息保存进store
-          // this.$store.commit('setUserLoginStatus', {
-          // 	login: true,
-          // 	user: {
-          // 		name: 'zhengsc',
-          // 		tel: '15010042978',
-          // 		birthday: '1535799405',
-          // 		sex: '男',
-          // 		money: 200
-          // 	}
-          // })
+          this.$store.commit('setUserLoginStatus', {
+          	login: true,
+          	user: resp.data
+          })
           // 关闭登陆dialog
           this.$store.commit("setLoginWrapState", false);
         })
@@ -176,14 +166,9 @@ export default {
           })
         )
         .then(resp => {
-          console.log(this.registerObj);
-          console.log("___222");
-          console.log(resp);
-          // login success
-          this.$store.commit("setUserLoginStatus", {
-            login: true,
-            user: resp.data
-          });
+					if(resp.status === 200) {
+						this.$message.success('发送成功')
+					}
         })
         .catch(error => {
           console.log(error);
