@@ -2,7 +2,7 @@
 	<div class="index-wrap">
 		<div class="index-user-input-area-wrap">
 			<h3>精准测算</h3>
-			<form action="http://dt.51dashizaixian.com/index.php" method="post" id="form" name="login">
+			<form action="https://51dashizaixian.com" method="post" id="form" name="login">
 				<!-- <input type="text" name="xing" />
 				<input type="text" name="ming" />
 				<button type="submit">提交</button> -->

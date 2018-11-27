@@ -107,7 +107,6 @@
 				rtcCall: null,
 				messageBody: '',
 				currentLoginUser: '',
-				isCallingVideo: false, // 有视频呼叫
                 chatToolList: [
                     {
 						text: '表情',
@@ -333,7 +332,6 @@
 						},
 						onRinging: function (caller) {
 							console.log('onRinging::', 'caller:', caller)
-							_this.isCallingVideo = true
 							_this.$confirm('收到视频请求，是否接受？', '提示', {
 								type: 'warning'
 							}).then(resp => {

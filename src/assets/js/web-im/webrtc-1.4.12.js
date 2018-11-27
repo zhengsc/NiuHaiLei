@@ -2216,6 +2216,7 @@
 	        };
 
 	        rtcPeerConnection.onaddstream = function (event) {
+				console.log('进入onGotRemoteStream触发事件')
 	            self._onGotRemoteStream(event);
 	        };
 	    },
