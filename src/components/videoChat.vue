@@ -391,7 +391,7 @@
 
 					imageInput.click()
 				} else if(type === 'video') {
-					if(window.WebIM.config.isWebRTC) {
+					if(!window.WebIM.config.isWebRTC) {
 						return this.$alert('使用视频通话功能请使用Firefox/Chrome/Safari浏览器', '提示', {
 							type: 'warning'
 						})

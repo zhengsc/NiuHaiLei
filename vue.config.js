@@ -6,12 +6,8 @@ module.exports = {
 	runtimeCompiler: true,
 	devServer: {
 		proxy: {
-			'/home': {
-				target: 'http://operation.zhengsc.com',
-				changeOrigin: true
-			},
-			'/user': {
-				target: 'http://operation.zhengsc.com',
+			'/': {
+				target: 'https://www.51dashizaixian.com',
 				changeOrigin: true
 			}
 		}

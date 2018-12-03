@@ -5,10 +5,12 @@ import Menu from './assets/js/menu'
 Vue.use(Router)
 
 let routes = []
+console.log(Menu)
 
 Menu.forEach(item => {
   let fileUrl = item.path === '/' ? 'index' : item.path.slice(1)
   let children = []
+  console.log(fileUrl)
 
   let route = {
     path: item.path,

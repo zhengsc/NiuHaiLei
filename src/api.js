@@ -1,5 +1,5 @@
 const protocol = process.env.NODE_ENV === 'production' ? location.protocol : 'https:'
-const baseUrl = protocol + '//' + location.host
+const baseUrl = protocol + '//' + (process.env.NODE_ENV === 'production' ? location.host : 'www.51dashizaixian.com')
 
 const Api = {
 	POST_LOGIN: '/home/login/index', // 登录

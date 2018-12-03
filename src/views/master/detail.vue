@@ -183,72 +183,12 @@
 					fuwu: [],
 					comments: [],
 
-					name: '罗永丰',
-					tags: ['风水', '八卦', '周易'],
-					images: [
-						require('../../assets/images/master-detail-images-1.jpg'),
-						require('../../assets/images/master-detail-images-2.jpg'),
-						require('../../assets/images/master-detail-images-1.jpg'),
-					],
-					desc: '大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介大师简介',
-					services: [
-						{
-							name: '八卦',
-							price: 12,
-							desc: '算什么都很准算什么都很准算什么都很准算什么都很准算什么都很准算什么都很准',
-							status: 1,
-						},
-						{
-							name: '八卦',
-							price: 12,
-							desc: '算什么都很准',
-							status: 0,
-						},
-						{
-							name: '八卦',
-							price: 12,
-							desc: '算什么都很准',
-							status: 1,
-						},
-						{
-							name: '八卦',
-							price: 12,
-							desc: '算什么都很准',
-							status: 0,
-						},
-						{
-							name: '八卦',
-							price: 12,
-							desc: '算什么都很准',
-							status: 1,
-						},
-					],
-					commentList: [
-						{
-							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
-							username: '匿名用户',
-							date: '2018-08-25',
-							context: '特别准，而且会告诉你很多别的需要注意的事，感谢了，还会再次结缘的特别准，而且会告诉你很多别的需要注意的事，感谢了，还会再次结缘的特别准，而且会告诉你很多别的需要注意的事，感谢了，还会再次结缘的'
-						},
-						{
-							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
-							username: '匿名用户',
-							date: '2018-08-25',
-							context: '算的很准'
-						},
-						{
-							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
-							username: '匿名用户',
-							date: '2018-08-25',
-							context: '算的很准'
-						},
-						{
-							userPic: require('../../assets/images/master-detail-comment-user.jpg'),
-							username: '匿名用户',
-							date: '2018-08-25',
-							context: '算的很准'
-						}
-					]
+					name: '',
+					tags: [],
+					images: [],
+					desc: '',
+					services: [],
+					commentList: []
 				},
 				otherMasterList: mockData.masterList.slice(0, 4),
 				payUrl: baseUrl + Api.POST_PAY_PATH,
@@ -345,7 +285,13 @@
 					mid: this.getLoginStatus.user.mid,
 					uid: this.masterDetail.info.id,
 				})).then(resp => {
-					console.log(resp)
+					if (resp.status === 200) {
+						this.$message.success('发布评论成功')
+						this.userInputData.comment = ''
+						this.masterDetail.commentList.push(reso.data)
+					} else {
+						this.$message.error('发布评论失败，请重试')
+					}
 				}).catch(error => {
 					console.log(error)
 				})
